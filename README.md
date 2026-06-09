@@ -31,7 +31,7 @@ The design targets the RV32I base integer ISA and is validated against the Spike
               └─────────┬──────────┘                       │
                         │ ctrl signals                     │
          ┌──────────────┼──────────────┐                   │
-    lane[0]         lane[1..6]      lane[7]                 │
+    lane[0]         lane[1..6]      lane[7]                │
   ┌───────────┐                  ┌───────────┐             │
   │ ALU+RF    │   (x8 identical) │ ALU+RF    │             │
   └─────┬─────┘                  └─────┬─────┘             │
