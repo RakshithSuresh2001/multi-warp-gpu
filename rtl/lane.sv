@@ -123,8 +123,21 @@ module lane #(
     // -------------------------------------------------------
     // Scratchpad (DMEM) interface
     // -------------------------------------------------------
-    assign dmem_ren    = valid && mem_read;
-    assign dmem_wen    = valid && mem_write;
+    // Register dmem_ren to break combinational loop:
+    // dmem_ren -> fetch_stall -> valid stuck -> dmem_ren stuck
+    // Registered version pulses exactly one cycle when load enters execute
+    reg dmem_ren_r, dmem_wen_r;
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            dmem_ren_r <= 1'b0;
+            dmem_wen_r <= 1'b0;
+        end else begin
+            dmem_ren_r <= valid && mem_read;
+            dmem_wen_r <= valid && mem_write;
+        end
+    end
+    assign dmem_ren = dmem_ren_r;
+    assign dmem_wen = dmem_wen_r;
     assign dmem_addr   = alu_result;               // effective address from ALU
     assign dmem_wdata  = rs2_data;
     assign dmem_funct3 = funct3;                   // encodes byte/half/word width

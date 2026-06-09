@@ -99,12 +99,21 @@ module tb_gpu_top;
     endtask
 
     task automatic test_two_warp_switch();
-        $display("--- Test 2: Warp 0 ADDI from x0 ---");
-        load_imem("tb/imem_2warp.hex");
+        $display("--- Test 2: 2-warp round-robin switch ---");
+        load_imem("tb/imem_2warp_v2.hex");
         do_reset();
-        wait_cycles(20);
-        // addi x1, x0, 42 -> x1 = 0x2a
-        check_reg(0, 0, 1, 32'h0000002a, "W0_ADDI");
+
+        // After reset both warp PCs = 0
+        // Force warp 1 to start at 0x20 (warp1_start label)
+        @(posedge clk); #1;
+        dut.u_scheduler.warp_pc[1] = 32'h00000020;
+
+        wait_cycles(40);
+
+        // warp 0: addi x1, x0, 10 -> x1 = 10 = 0x0a
+        check_reg(0, 0, 1, 32'h0000000a, "W0_ADDI");
+        // warp 1: addi x1, x0, 20 -> x1 = 20 = 0x14
+        check_reg(1, 0, 1, 32'h00000014, "W1_ADDI");
     endtask
 
     initial begin
@@ -128,6 +137,24 @@ module tb_gpu_top;
             $display("  [%0d] = 0x%08h", i, dut.u_fetch.imem[i]);
     endtask
 
+    // Warp stall probe
+    always @(posedge clk) begin
+        if (dut.warp_stall != 0)
+            $display("WSTALL: warp_stall=%02b active_warp=%0d dmem_pending=%0b",
+                dut.warp_stall,
+                dut.u_scheduler.active_warp,
+                dut.dmem_active);
+    end
+
+    // rr_ptr probe
+    always @(posedge clk) begin
+        $display("RR: rr_ptr=%0d next=%0d any_ready=%0b ws0=%0b ws1=%0b",
+            dut.u_scheduler.rr_ptr,
+            dut.u_scheduler.next_warp,
+            dut.u_scheduler.any_ready,
+            dut.warp_stall[0],
+            dut.warp_stall[1]);
+    end
     // Warp scheduler probe
     always @(posedge clk) begin
         if (rst_n)
@@ -153,6 +180,15 @@ module tb_gpu_top;
                 dut.regfiles[0].u_regfile.rs1_addr,
                 dut.regfiles[0].u_regfile.rs1_data,
                 dut.regfiles[0].u_regfile.regs[0][0][1]);
+    end
+
+    // Warp stall probe
+    always @(posedge clk) begin
+        if (dut.warp_stall != 0)
+            $display("WSTALL: warp_stall=%02b active_warp=%0d dmem_pending=%0b",
+                dut.warp_stall,
+                dut.u_scheduler.active_warp,
+                dut.dmem_active);
     end
 
     // Warp scheduler probe
@@ -214,6 +250,15 @@ module tb_gpu_top;
     // IMEM dump after load — prints first 8 words
     
 
+    // Warp stall probe
+    always @(posedge clk) begin
+        if (dut.warp_stall != 0)
+            $display("WSTALL: warp_stall=%02b active_warp=%0d dmem_pending=%0b",
+                dut.warp_stall,
+                dut.u_scheduler.active_warp,
+                dut.dmem_active);
+    end
+
     // Warp scheduler probe
     always @(posedge clk) begin
         if (rst_n)
@@ -239,6 +284,15 @@ module tb_gpu_top;
                 dut.regfiles[0].u_regfile.rs1_addr,
                 dut.regfiles[0].u_regfile.rs1_data,
                 dut.regfiles[0].u_regfile.regs[0][0][1]);
+    end
+
+    // Warp stall probe
+    always @(posedge clk) begin
+        if (dut.warp_stall != 0)
+            $display("WSTALL: warp_stall=%02b active_warp=%0d dmem_pending=%0b",
+                dut.warp_stall,
+                dut.u_scheduler.active_warp,
+                dut.dmem_active);
     end
 
     // Warp scheduler probe

@@ -16,9 +16,8 @@ module warp_scheduler #(
     output logic                                    valid
 );
 
-    typedef enum logic { READY = 1'b0, WAITING = 1'b1 } warp_state_t;
-
-    warp_state_t                        warp_state [NUM_WARPS];
+    // Plain logic instead of enum for Yosys compatibility
+    logic                               warp_state [NUM_WARPS];  // 0=READY 1=WAITING
     logic [NUM_WARPS-1:0][PC_WIDTH-1:0] warp_pc;
     logic [$clog2(NUM_WARPS)-1:0]       rr_ptr;
 
@@ -33,28 +32,25 @@ module warp_scheduler #(
 
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            for (int i = 0; i < NUM_WARPS; i++) warp_state[i] <= READY;
+            for (int i = 0; i < NUM_WARPS; i++) warp_state[i] <= 1'b0;
         end else begin
             for (int i = 0; i < NUM_WARPS; i++)
-                warp_state[i] <= warp_stall[i] ? WAITING : READY;
+                warp_state[i] <= warp_stall[i] ? 1'b1 : 1'b0;
         end
     end
 
     logic [$clog2(NUM_WARPS)-1:0] next_warp;
     logic                          any_ready;
 
+    // Hardcoded for NUM_WARPS=2 to avoid Yosys automatic/modulo issues
     always_comb begin
         next_warp = rr_ptr;
         any_ready = 1'b0;
-        for (int i = 0; i < NUM_WARPS; i++) begin
-            logic [$clog2(NUM_WARPS)-1:0] candidate;
-            candidate = ($clog2(NUM_WARPS)'(i + 1) + rr_ptr) % NUM_WARPS[$clog2(NUM_WARPS)-1:0];
-            if (!any_ready && warp_state[candidate] == READY) begin
-                next_warp = candidate;
-                any_ready = 1'b1;
-            end
-        end
-        if (!any_ready && warp_state[rr_ptr] == READY) begin
+        // Check warp 1 first if rr_ptr=0, else check warp 0
+        if (!warp_stall[~rr_ptr]) begin
+            next_warp = ~rr_ptr;
+            any_ready = 1'b1;
+        end else if (!warp_stall[rr_ptr]) begin
             next_warp = rr_ptr;
             any_ready = 1'b1;
         end
@@ -62,7 +58,8 @@ module warp_scheduler #(
 
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) rr_ptr <= '0;
-        else if (any_ready) rr_ptr <= next_warp;
+        else if (warp_stall[rr_ptr] || !any_ready) rr_ptr <= next_warp;
+        // Only switch when current warp is stalled
     end
 
     assign active_warp = rr_ptr;

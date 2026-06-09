@@ -321,9 +321,6 @@ VL_ATTR_COLD void Vtb_gpu_top___024root___stl_sequent__TOP__0(Vtb_gpu_top___024r
             }
         }
     }
-    vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__dmem_wen 
-        = ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_write) 
-           & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__if_valid));
     vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellinp__regfiles__BRA__0__KET____DOT__u_regfile__wr_en 
         = ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_reg_write) 
            & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__if_valid));
@@ -331,34 +328,6 @@ VL_ATTR_COLD void Vtb_gpu_top___024root___stl_sequent__TOP__0(Vtb_gpu_top___024r
         = (((- (IData)((vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr 
                         >> 0x1fU))) << 0xcU) | (vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr 
                                                 >> 0x14U));
-    vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__next_warp 
-        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr;
-    vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__any_ready = 0U;
-    vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__candidate 
-        = (1U & VL_MODDIV_III(1, (1U & ((IData)(1U) 
-                                        + (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr))), (IData)(0U)));
-    if ((1U & (~ vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__warp_state
-               [vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__candidate]))) {
-        vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__next_warp 
-            = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__candidate;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__any_ready = 1U;
-    }
-    vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__candidate 
-        = (1U & VL_MODDIV_III(1, (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr), (IData)(0U)));
-    if ((1U & ((~ (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__any_ready)) 
-               & (~ vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__warp_state
-                  [vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__candidate])))) {
-        vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__next_warp 
-            = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__candidate;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__any_ready = 1U;
-    }
-    if ((1U & ((~ (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__any_ready)) 
-               & (~ vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__warp_state
-                  [vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr])))) {
-        vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__next_warp 
-            = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__any_ready = 1U;
-    }
     vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__branch_target 
         = (vlSelf->tb_gpu_top__DOT__dut__DOT__id_imm 
            + vlSelf->tb_gpu_top__DOT__dut__DOT__id_pc);
@@ -378,6 +347,22 @@ VL_ATTR_COLD void Vtb_gpu_top___024root___stl_sequent__TOP__0(Vtb_gpu_top___024r
         = vlSelf->tb_gpu_top__DOT__dut__DOT__id_warp_id;
     vlSelf->tb_gpu_top__DOT__dut__DOT__wb_warp_id[7U] 
         = vlSelf->tb_gpu_top__DOT__dut__DOT__id_warp_id;
+    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_wen = (
+                                                   ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__7__KET____DOT__u_lane__DOT__dmem_wen_r) 
+                                                    << 7U) 
+                                                   | (((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__6__KET____DOT__u_lane__DOT__dmem_wen_r) 
+                                                       << 6U) 
+                                                      | (((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__5__KET____DOT__u_lane__DOT__dmem_wen_r) 
+                                                          << 5U) 
+                                                         | (((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__4__KET____DOT__u_lane__DOT__dmem_wen_r) 
+                                                             << 4U) 
+                                                            | (((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__3__KET____DOT__u_lane__DOT__dmem_wen_r) 
+                                                                << 3U) 
+                                                               | (((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__2__KET____DOT__u_lane__DOT__dmem_wen_r) 
+                                                                   << 2U) 
+                                                                  | (((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__1__KET____DOT__u_lane__DOT__dmem_wen_r) 
+                                                                      << 1U) 
+                                                                     | (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__0__KET____DOT__u_lane__DOT__dmem_wen_r))))))));
     vlSelf->tb_gpu_top__DOT__dut__DOT__wb_rd_addr[0U] 
         = vlSelf->tb_gpu_top__DOT__dut__DOT__id_rd_addr;
     vlSelf->tb_gpu_top__DOT__dut__DOT__wb_rd_addr[1U] 
@@ -566,9 +551,22 @@ VL_ATTR_COLD void Vtb_gpu_top___024root___stl_sequent__TOP__0(Vtb_gpu_top___024r
                                                    != vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out)
                                                 : (vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs1_out 
                                                    == vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out)))))));
-    vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__dmem_ren 
-        = ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_read) 
-           & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__if_valid));
+    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren = (
+                                                   ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__7__KET____DOT__u_lane__DOT__dmem_ren_r) 
+                                                    << 7U) 
+                                                   | (((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__6__KET____DOT__u_lane__DOT__dmem_ren_r) 
+                                                       << 6U) 
+                                                      | (((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__5__KET____DOT__u_lane__DOT__dmem_ren_r) 
+                                                          << 5U) 
+                                                         | (((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__4__KET____DOT__u_lane__DOT__dmem_ren_r) 
+                                                             << 4U) 
+                                                            | (((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__3__KET____DOT__u_lane__DOT__dmem_ren_r) 
+                                                                << 3U) 
+                                                               | (((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__2__KET____DOT__u_lane__DOT__dmem_ren_r) 
+                                                                   << 2U) 
+                                                                  | (((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__1__KET____DOT__u_lane__DOT__dmem_ren_r) 
+                                                                      << 1U) 
+                                                                     | (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__0__KET____DOT__u_lane__DOT__dmem_ren_r))))))));
     vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__0__KET____DOT__u_lane__DOT__alu_in_a 
         = ((0xbU == (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_alu_op))
             ? vlSelf->tb_gpu_top__DOT__dut__DOT__id_pc
@@ -947,9 +945,9 @@ VL_ATTR_COLD void Vtb_gpu_top___024root___stl_sequent__TOP__0(Vtb_gpu_top___024r
            & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__branch_taken));
     vlSelf->tb_gpu_top__DOT__dut__DOT__warp_stall = 
         ((((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr) 
-           & (0U != (0xffU & (- (IData)((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__dmem_ren)))))) 
+           & (0U != (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren))) 
           << 1U) | ((~ (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr)) 
-                    & (0U != (0xffU & (- (IData)((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__dmem_ren)))))));
+                    & (0U != (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren))));
     tb_gpu_top__DOT__dut__DOT__lanes__BRA__0__KET____DOT__u_lane__DOT____VdfgExtracted_hf956df2b__0 
         = (vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__0__KET____DOT__u_lane__DOT__alu_in_a 
            + vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__0__KET____DOT__u_lane__DOT__alu_b);
@@ -981,6 +979,26 @@ VL_ATTR_COLD void Vtb_gpu_top___024root___stl_sequent__TOP__0(Vtb_gpu_top___024r
         = ((vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__0__KET____DOT__u_lane__DOT__alu_in_a 
             < vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__0__KET____DOT__u_lane__DOT__alu_b)
             ? 1U : 0U);
+    vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__next_warp 
+        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr;
+    vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__any_ready = 0U;
+    vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__idx 
+        = VL_MODDIVS_III(32, ((IData)(1U) + (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr)), (IData)(2U));
+    if ((1U & (~ ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__warp_stall) 
+                  >> (1U & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__idx))))) {
+        vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__next_warp 
+            = (1U & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__idx);
+        vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__any_ready = 1U;
+    }
+    vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__idx 
+        = VL_MODDIVS_III(32, ((IData)(2U) + (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr)), (IData)(2U));
+    if ((1U & ((~ (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__any_ready)) 
+               & (~ ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__warp_stall) 
+                     >> (1U & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__idx)))))) {
+        vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__next_warp 
+            = (1U & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__idx);
+        vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__any_ready = 1U;
+    }
     vlSelf->tb_gpu_top__DOT__dut__DOT__sched_valid 
         = (1U & (~ ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__warp_stall) 
                     >> (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr))));
@@ -1013,7 +1031,7 @@ VL_ATTR_COLD void Vtb_gpu_top___024root___stl_sequent__TOP__0(Vtb_gpu_top___024r
     vlSelf->tb_gpu_top__DOT__dut__DOT__pc_wen_fetch = 0U;
     vlSelf->tb_gpu_top__DOT__dut__DOT__pc_next_fetch = 0ULL;
     if (((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__sched_valid) 
-         & (~ (IData)((0U != (0xffU & (- (IData)((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__dmem_ren))))))))) {
+         & (~ (IData)((0U != (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren)))))) {
         vlSelf->tb_gpu_top__DOT__dut__DOT__pc_wen_fetch 
             = ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__pc_wen_fetch) 
                | (3U & ((IData)(1U) << (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr))));
@@ -1269,6 +1287,8 @@ VL_ATTR_COLD void Vtb_gpu_top___024root___ctor_var_reset(Vtb_gpu_top___024root* 
     for (int __Vi0 = 0; __Vi0 < 8; ++__Vi0) {
         vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs2[__Vi0] = VL_RAND_RESET_I(32);
     }
+    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren = VL_RAND_RESET_I(8);
+    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_wen = VL_RAND_RESET_I(8);
     VL_RAND_RESET_W(256, vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr);
     VL_RAND_RESET_W(256, vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata);
     vlSelf->tb_gpu_top__DOT__dut__DOT__warp_stall = VL_RAND_RESET_I(2);
@@ -1278,8 +1298,6 @@ VL_ATTR_COLD void Vtb_gpu_top___024root___ctor_var_reset(Vtb_gpu_top___024root* 
     vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__regfiles__BRA__0__KET____DOT__u_regfile__rs1_data = VL_RAND_RESET_I(32);
     vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__branch_target = VL_RAND_RESET_I(32);
     vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__branch_taken = VL_RAND_RESET_I(1);
-    vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__dmem_wen = VL_RAND_RESET_I(1);
-    vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__dmem_ren = VL_RAND_RESET_I(1);
     for (int __Vi0 = 0; __Vi0 < 2; ++__Vi0) {
         vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__warp_state[__Vi0] = VL_RAND_RESET_I(1);
     }
@@ -1291,7 +1309,7 @@ VL_ATTR_COLD void Vtb_gpu_top___024root___ctor_var_reset(Vtb_gpu_top___024root* 
     vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk1__DOT__i = 0;
     vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk4__DOT__i = 0;
     vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk3__DOT__i = 0;
-    vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__candidate = VL_RAND_RESET_I(1);
+    vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__idx = 0;
     for (int __Vi0 = 0; __Vi0 < 1024; ++__Vi0) {
         vlSelf->tb_gpu_top__DOT__dut__DOT__u_fetch__DOT__imem[__Vi0] = VL_RAND_RESET_I(32);
     }
@@ -1379,6 +1397,22 @@ VL_ATTR_COLD void Vtb_gpu_top___024root___ctor_var_reset(Vtb_gpu_top___024root* 
     vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__0__KET____DOT__u_lane__DOT__alu_b = VL_RAND_RESET_I(32);
     vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__0__KET____DOT__u_lane__DOT__alu_in_a = VL_RAND_RESET_I(32);
     vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__0__KET____DOT__u_lane__DOT__alu_result = VL_RAND_RESET_I(32);
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__0__KET____DOT__u_lane__DOT__dmem_ren_r = VL_RAND_RESET_I(1);
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__0__KET____DOT__u_lane__DOT__dmem_wen_r = VL_RAND_RESET_I(1);
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__1__KET____DOT__u_lane__DOT__dmem_ren_r = VL_RAND_RESET_I(1);
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__1__KET____DOT__u_lane__DOT__dmem_wen_r = VL_RAND_RESET_I(1);
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__2__KET____DOT__u_lane__DOT__dmem_ren_r = VL_RAND_RESET_I(1);
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__2__KET____DOT__u_lane__DOT__dmem_wen_r = VL_RAND_RESET_I(1);
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__3__KET____DOT__u_lane__DOT__dmem_ren_r = VL_RAND_RESET_I(1);
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__3__KET____DOT__u_lane__DOT__dmem_wen_r = VL_RAND_RESET_I(1);
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__4__KET____DOT__u_lane__DOT__dmem_ren_r = VL_RAND_RESET_I(1);
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__4__KET____DOT__u_lane__DOT__dmem_wen_r = VL_RAND_RESET_I(1);
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__5__KET____DOT__u_lane__DOT__dmem_ren_r = VL_RAND_RESET_I(1);
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__5__KET____DOT__u_lane__DOT__dmem_wen_r = VL_RAND_RESET_I(1);
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__6__KET____DOT__u_lane__DOT__dmem_ren_r = VL_RAND_RESET_I(1);
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__6__KET____DOT__u_lane__DOT__dmem_wen_r = VL_RAND_RESET_I(1);
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__7__KET____DOT__u_lane__DOT__dmem_ren_r = VL_RAND_RESET_I(1);
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__7__KET____DOT__u_lane__DOT__dmem_wen_r = VL_RAND_RESET_I(1);
     vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v0 = 0;
     vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v0 = 0;
     vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v0 = VL_RAND_RESET_I(8);
@@ -1595,6 +1629,7 @@ VL_ATTR_COLD void Vtb_gpu_top___024root___ctor_var_reset(Vtb_gpu_top___024root* 
     vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v55 = 0;
     vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v55 = VL_RAND_RESET_I(32);
     vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v55 = 0;
+    vlSelf->__Vdly__tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr = VL_RAND_RESET_I(1);
     vlSelf->__Vtrigprevexpr___TOP__tb_gpu_top__DOT__clk__0 = VL_RAND_RESET_I(1);
     vlSelf->__Vtrigprevexpr___TOP__tb_gpu_top__DOT__rst_n__0 = VL_RAND_RESET_I(1);
     for (int __Vi0 = 0; __Vi0 < 5; ++__Vi0) {

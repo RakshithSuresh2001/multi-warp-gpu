@@ -13,7 +13,13 @@ module gpu_top #(
     parameter DMEM_DEPTH = 256
 )(
     input  wire clk,
-    input  wire rst_n
+    input  wire rst_n,
+
+    // Synthesis output ports — prevent logic optimization
+    output wire                          active_warp_out,
+    output wire [31:0]                   active_pc_out,
+    output wire                          sched_valid_out,
+    output wire [31:0]                   wb_data_out
 );
 
     // -------------------------------------------------------
@@ -270,12 +276,24 @@ module gpu_top #(
 
     // Stall active warp for one cycle on any lane load
     // (scratchpad read is synchronous, data arrives next cycle)
-    assign fetch_stall = |dmem_ren;
+    // fetch_stall: assert when any lane has a pending load
+    // dmem_ren is combinational from lane valid && mem_read
+    // One cycle stall gives scratchpad time to return data
+    wire dmem_active = |dmem_ren;
+
+    assign fetch_stall = dmem_active;
+
     generate
         for (w = 0; w < NUM_WARPS; w++) begin : stall_gen
-            assign warp_stall[w] = (sched_active_warp == w[$clog2(NUM_WARPS)-1:0]) && (|dmem_ren);
+            assign warp_stall[w] = (sched_active_warp == w[$clog2(NUM_WARPS)-1:0]) && dmem_active;
         end
     endgenerate
+
+    // Drive output ports
+    assign active_warp_out = sched_active_warp[0];
+    assign active_pc_out   = sched_active_pc;
+    assign sched_valid_out = sched_valid;
+    assign wb_data_out     = wb_data[0];
 
 endmodule
 `default_nettype wire

@@ -92,6 +92,17 @@ VL_INLINE_OPT VlCoroutine Vtb_gpu_top___024root___eval_initial__TOP__Vtiming__0(
     std::string __Vtask_tb_gpu_top__DOT__check_reg__13__test_name;
     IData/*31:0*/ __Vtask_tb_gpu_top__DOT__check_reg__13__actual;
     __Vtask_tb_gpu_top__DOT__check_reg__13__actual = 0;
+    IData/*31:0*/ __Vtask_tb_gpu_top__DOT__check_reg__14__warp;
+    __Vtask_tb_gpu_top__DOT__check_reg__14__warp = 0;
+    IData/*31:0*/ __Vtask_tb_gpu_top__DOT__check_reg__14__lane;
+    __Vtask_tb_gpu_top__DOT__check_reg__14__lane = 0;
+    IData/*31:0*/ __Vtask_tb_gpu_top__DOT__check_reg__14__addr;
+    __Vtask_tb_gpu_top__DOT__check_reg__14__addr = 0;
+    IData/*31:0*/ __Vtask_tb_gpu_top__DOT__check_reg__14__expected;
+    __Vtask_tb_gpu_top__DOT__check_reg__14__expected = 0;
+    std::string __Vtask_tb_gpu_top__DOT__check_reg__14__test_name;
+    IData/*31:0*/ __Vtask_tb_gpu_top__DOT__check_reg__14__actual;
+    __Vtask_tb_gpu_top__DOT__check_reg__14__actual = 0;
     // Body
     VL_WRITEF("--- Test 1: Single warp ALU sequence ---\n");
     VL_READMEM_N(true, 32, 1024, 0, std::string{"tb/imem_alu.hex"}
@@ -5591,9 +5602,9 @@ VL_INLINE_OPT VlCoroutine Vtb_gpu_top___024root___eval_initial__TOP__Vtiming__0(
         vlSelf->tb_gpu_top__DOT__fail_count = ((IData)(1U) 
                                                + vlSelf->tb_gpu_top__DOT__fail_count);
     }
-    VL_WRITEF("--- Test 2: Warp 0 ADDI from x0 ---\n");
+    VL_WRITEF("--- Test 2: 2-warp round-robin switch ---\n");
     __Vtask_tb_gpu_top__DOT__load_imem__10__hex_file = 
-        std::string{"tb/imem_2warp.hex"};
+        std::string{"tb/imem_2warp_v2.hex"};
     VL_READMEM_N(true, 32, 1024, 0, VL_CVT_PACK_STR_NN(__Vtask_tb_gpu_top__DOT__load_imem__10__hex_file)
                  ,  &(vlSelf->tb_gpu_top__DOT__dut__DOT__u_fetch__DOT__imem)
                  , 0, ~0ULL);
@@ -5630,7 +5641,17 @@ VL_INLINE_OPT VlCoroutine Vtb_gpu_top___024root___eval_initial__TOP__Vtiming__0(
                                                        "@(posedge tb_gpu_top.clk)", 
                                                        "tb/tb_gpu_top.sv", 
                                                        43);
-    __Vtask_tb_gpu_top__DOT__wait_cycles__12__n = 0x14U;
+    co_await vlSelf->__VtrigSched_h4954a85e__0.trigger(0U, 
+                                                       nullptr, 
+                                                       "@(posedge tb_gpu_top.clk)", 
+                                                       "tb/tb_gpu_top.sv", 
+                                                       108);
+    co_await vlSelf->__VdlySched.delay(0x3e8ULL, nullptr, 
+                                       "tb/tb_gpu_top.sv", 
+                                       108);
+    vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__warp_pc 
+        = (0x2000000000ULL | (0xffffffffULL & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__warp_pc));
+    __Vtask_tb_gpu_top__DOT__wait_cycles__12__n = 0x28U;
     tb_gpu_top__DOT____Vrepeat2 = __Vtask_tb_gpu_top__DOT__wait_cycles__12__n;
     while (VL_LTS_III(32, 0U, tb_gpu_top__DOT____Vrepeat2)) {
         co_await vlSelf->__VtrigSched_h4954a85e__0.trigger(0U, 
@@ -5643,7 +5664,7 @@ VL_INLINE_OPT VlCoroutine Vtb_gpu_top___024root___eval_initial__TOP__Vtiming__0(
     }
     __Vtask_tb_gpu_top__DOT__check_reg__13__test_name = 
         std::string{"W0_ADDI"};
-    __Vtask_tb_gpu_top__DOT__check_reg__13__expected = 0x2aU;
+    __Vtask_tb_gpu_top__DOT__check_reg__13__expected = 0xaU;
     __Vtask_tb_gpu_top__DOT__check_reg__13__addr = 1U;
     __Vtask_tb_gpu_top__DOT__check_reg__13__lane = 0U;
     __Vtask_tb_gpu_top__DOT__check_reg__13__warp = 0U;
@@ -5781,6 +5802,146 @@ VL_INLINE_OPT VlCoroutine Vtb_gpu_top___024root___eval_initial__TOP__Vtiming__0(
         vlSelf->tb_gpu_top__DOT__fail_count = ((IData)(1U) 
                                                + vlSelf->tb_gpu_top__DOT__fail_count);
     }
+    __Vtask_tb_gpu_top__DOT__check_reg__14__test_name = 
+        std::string{"W1_ADDI"};
+    __Vtask_tb_gpu_top__DOT__check_reg__14__expected = 0x14U;
+    __Vtask_tb_gpu_top__DOT__check_reg__14__addr = 1U;
+    __Vtask_tb_gpu_top__DOT__check_reg__14__lane = 0U;
+    __Vtask_tb_gpu_top__DOT__check_reg__14__warp = 1U;
+    __Vtask_tb_gpu_top__DOT__check_reg__14__actual 
+        = ((0U == __Vtask_tb_gpu_top__DOT__check_reg__14__addr)
+            ? 0U : (((((((((0U == __Vtask_tb_gpu_top__DOT__check_reg__14__lane) 
+                           | (1U == __Vtask_tb_gpu_top__DOT__check_reg__14__lane)) 
+                          | (2U == __Vtask_tb_gpu_top__DOT__check_reg__14__lane)) 
+                         | (3U == __Vtask_tb_gpu_top__DOT__check_reg__14__lane)) 
+                        | (4U == __Vtask_tb_gpu_top__DOT__check_reg__14__lane)) 
+                       | (5U == __Vtask_tb_gpu_top__DOT__check_reg__14__lane)) 
+                      | (6U == __Vtask_tb_gpu_top__DOT__check_reg__14__lane)) 
+                     | (7U == __Vtask_tb_gpu_top__DOT__check_reg__14__lane))
+                     ? ((0U == __Vtask_tb_gpu_top__DOT__check_reg__14__lane)
+                         ? ((0x1eU >= (0x1fU & (__Vtask_tb_gpu_top__DOT__check_reg__14__addr 
+                                                - (IData)(1U))))
+                             ? vlSelf->tb_gpu_top__DOT__dut__DOT__regfiles__BRA__0__KET____DOT__u_regfile__DOT__regs
+                            [(1U & __Vtask_tb_gpu_top__DOT__check_reg__14__warp)]
+                            [0U][(0x1fU & (__Vtask_tb_gpu_top__DOT__check_reg__14__addr 
+                                           - (IData)(1U)))]
+                             : 0U) : ((1U == __Vtask_tb_gpu_top__DOT__check_reg__14__lane)
+                                       ? ((0x1eU >= 
+                                           (0x1fU & 
+                                            (__Vtask_tb_gpu_top__DOT__check_reg__14__addr 
+                                             - (IData)(1U))))
+                                           ? vlSelf->tb_gpu_top__DOT__dut__DOT__regfiles__BRA__1__KET____DOT__u_regfile__DOT__regs
+                                          [(1U & __Vtask_tb_gpu_top__DOT__check_reg__14__warp)]
+                                          [1U][(0x1fU 
+                                                & (__Vtask_tb_gpu_top__DOT__check_reg__14__addr 
+                                                   - (IData)(1U)))]
+                                           : 0U) : 
+                                      ((2U == __Vtask_tb_gpu_top__DOT__check_reg__14__lane)
+                                        ? ((0x1eU >= 
+                                            (0x1fU 
+                                             & (__Vtask_tb_gpu_top__DOT__check_reg__14__addr 
+                                                - (IData)(1U))))
+                                            ? vlSelf->tb_gpu_top__DOT__dut__DOT__regfiles__BRA__2__KET____DOT__u_regfile__DOT__regs
+                                           [(1U & __Vtask_tb_gpu_top__DOT__check_reg__14__warp)]
+                                           [2U][(0x1fU 
+                                                 & (__Vtask_tb_gpu_top__DOT__check_reg__14__addr 
+                                                    - (IData)(1U)))]
+                                            : 0U) : 
+                                       ((3U == __Vtask_tb_gpu_top__DOT__check_reg__14__lane)
+                                         ? ((0x1eU 
+                                             >= (0x1fU 
+                                                 & (__Vtask_tb_gpu_top__DOT__check_reg__14__addr 
+                                                    - (IData)(1U))))
+                                             ? vlSelf->tb_gpu_top__DOT__dut__DOT__regfiles__BRA__3__KET____DOT__u_regfile__DOT__regs
+                                            [(1U & __Vtask_tb_gpu_top__DOT__check_reg__14__warp)]
+                                            [3U][(0x1fU 
+                                                  & (__Vtask_tb_gpu_top__DOT__check_reg__14__addr 
+                                                     - (IData)(1U)))]
+                                             : 0U) : 
+                                        ((4U == __Vtask_tb_gpu_top__DOT__check_reg__14__lane)
+                                          ? ((0x1eU 
+                                              >= (0x1fU 
+                                                  & (__Vtask_tb_gpu_top__DOT__check_reg__14__addr 
+                                                     - (IData)(1U))))
+                                              ? vlSelf->tb_gpu_top__DOT__dut__DOT__regfiles__BRA__4__KET____DOT__u_regfile__DOT__regs
+                                             [(1U & __Vtask_tb_gpu_top__DOT__check_reg__14__warp)]
+                                             [4U][(0x1fU 
+                                                   & (__Vtask_tb_gpu_top__DOT__check_reg__14__addr 
+                                                      - (IData)(1U)))]
+                                              : 0U)
+                                          : ((5U == __Vtask_tb_gpu_top__DOT__check_reg__14__lane)
+                                              ? ((0x1eU 
+                                                  >= 
+                                                  (0x1fU 
+                                                   & (__Vtask_tb_gpu_top__DOT__check_reg__14__addr 
+                                                      - (IData)(1U))))
+                                                  ? 
+                                                 vlSelf->tb_gpu_top__DOT__dut__DOT__regfiles__BRA__5__KET____DOT__u_regfile__DOT__regs
+                                                 [(1U 
+                                                   & __Vtask_tb_gpu_top__DOT__check_reg__14__warp)]
+                                                 [5U]
+                                                 [(0x1fU 
+                                                   & (__Vtask_tb_gpu_top__DOT__check_reg__14__addr 
+                                                      - (IData)(1U)))]
+                                                  : 0U)
+                                              : ((6U 
+                                                  == __Vtask_tb_gpu_top__DOT__check_reg__14__lane)
+                                                  ? 
+                                                 ((0x1eU 
+                                                   >= 
+                                                   (0x1fU 
+                                                    & (__Vtask_tb_gpu_top__DOT__check_reg__14__addr 
+                                                       - (IData)(1U))))
+                                                   ? 
+                                                  vlSelf->tb_gpu_top__DOT__dut__DOT__regfiles__BRA__6__KET____DOT__u_regfile__DOT__regs
+                                                  [
+                                                  (1U 
+                                                   & __Vtask_tb_gpu_top__DOT__check_reg__14__warp)]
+                                                  [6U]
+                                                  [
+                                                  (0x1fU 
+                                                   & (__Vtask_tb_gpu_top__DOT__check_reg__14__addr 
+                                                      - (IData)(1U)))]
+                                                   : 0U)
+                                                  : 
+                                                 ((0x1eU 
+                                                   >= 
+                                                   (0x1fU 
+                                                    & (__Vtask_tb_gpu_top__DOT__check_reg__14__addr 
+                                                       - (IData)(1U))))
+                                                   ? 
+                                                  vlSelf->tb_gpu_top__DOT__dut__DOT__regfiles__BRA__7__KET____DOT__u_regfile__DOT__regs
+                                                  [
+                                                  (1U 
+                                                   & __Vtask_tb_gpu_top__DOT__check_reg__14__warp)]
+                                                  [7U]
+                                                  [
+                                                  (0x1fU 
+                                                   & (__Vtask_tb_gpu_top__DOT__check_reg__14__addr 
+                                                      - (IData)(1U)))]
+                                                   : 0U))))))))
+                     : 0xdeadbeefU));
+    if ((__Vtask_tb_gpu_top__DOT__check_reg__14__actual 
+         == __Vtask_tb_gpu_top__DOT__check_reg__14__expected)) {
+        VL_WRITEF("PASS [%@] warp=%0d lane=%0d x%0d = 0x%08x\n",
+                  -1,&(__Vtask_tb_gpu_top__DOT__check_reg__14__test_name),
+                  32,__Vtask_tb_gpu_top__DOT__check_reg__14__warp,
+                  32,__Vtask_tb_gpu_top__DOT__check_reg__14__lane,
+                  32,__Vtask_tb_gpu_top__DOT__check_reg__14__addr,
+                  32,__Vtask_tb_gpu_top__DOT__check_reg__14__actual);
+        vlSelf->tb_gpu_top__DOT__pass_count = ((IData)(1U) 
+                                               + vlSelf->tb_gpu_top__DOT__pass_count);
+    } else {
+        VL_WRITEF("FAIL [%@] warp=%0d lane=%0d x%0d = 0x%08x, expected 0x%08x\n",
+                  -1,&(__Vtask_tb_gpu_top__DOT__check_reg__14__test_name),
+                  32,__Vtask_tb_gpu_top__DOT__check_reg__14__warp,
+                  32,__Vtask_tb_gpu_top__DOT__check_reg__14__lane,
+                  32,__Vtask_tb_gpu_top__DOT__check_reg__14__addr,
+                  32,__Vtask_tb_gpu_top__DOT__check_reg__14__actual,
+                  32,__Vtask_tb_gpu_top__DOT__check_reg__14__expected);
+        vlSelf->tb_gpu_top__DOT__fail_count = ((IData)(1U) 
+                                               + vlSelf->tb_gpu_top__DOT__fail_count);
+    }
     VL_WRITEF("=============================\nResults: %0d PASS, %0d FAIL\n=============================\n",
               32,vlSelf->tb_gpu_top__DOT__pass_count,
               32,vlSelf->tb_gpu_top__DOT__fail_count);
@@ -5789,7 +5950,7 @@ VL_INLINE_OPT VlCoroutine Vtb_gpu_top___024root___eval_initial__TOP__Vtiming__0(
     } else {
         VL_WRITEF("FAILURES DETECTED\n");
     }
-    VL_FINISH_MT("tb/tb_gpu_top.sv", 121, "");
+    VL_FINISH_MT("tb/tb_gpu_top.sv", 130, "");
 }
 
 VL_INLINE_OPT VlCoroutine Vtb_gpu_top___024root___eval_initial__TOP__Vtiming__1(Vtb_gpu_top___024root* vlSelf) {
@@ -5799,9 +5960,9 @@ VL_INLINE_OPT VlCoroutine Vtb_gpu_top___024root___eval_initial__TOP__Vtiming__1(
     // Body
     co_await vlSelf->__VdlySched.delay(0x989680ULL, 
                                        nullptr, "tb/tb_gpu_top.sv", 
-                                       301);
+                                       355);
     VL_WRITEF("TIMEOUT\n");
-    VL_FINISH_MT("tb/tb_gpu_top.sv", 303, "");
+    VL_FINISH_MT("tb/tb_gpu_top.sv", 357, "");
 }
 
 VL_INLINE_OPT VlCoroutine Vtb_gpu_top___024root___eval_initial__TOP__Vtiming__2(Vtb_gpu_top___024root* vlSelf) {
@@ -5840,6 +6001,8 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__0(Vtb_gpu_top___024
     // Body
     __Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__warp_state__v0 = 0U;
     __Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__warp_state__v2 = 0U;
+    vlSelf->__Vdly__tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr 
+        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr;
     if ((1U & (~ (IData)(vlSelf->tb_gpu_top__DOT__rst_n)))) {
         vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk1__DOT__i = 2U;
         vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk3__DOT__i = 2U;
@@ -5853,6 +6016,12 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__0(Vtb_gpu_top___024
         __Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__warp_state__v1 
             = (1U & ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__warp_stall) 
                      >> 1U));
+        if ((1U & (((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__warp_stall) 
+                    >> (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr)) 
+                   | (~ (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__any_ready))))) {
+            vlSelf->__Vdly__tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr 
+                = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__next_warp;
+        }
         if ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__pc_wen))) {
             vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__warp_pc 
                 = ((0xffffffff00000000ULL & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__warp_pc) 
@@ -5867,23 +6036,84 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__0(Vtb_gpu_top___024
         }
     } else {
         __Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__warp_state__v2 = 1U;
+        vlSelf->__Vdly__tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr = 0U;
         vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__warp_pc = 0ULL;
     }
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__7__KET____DOT__u_lane__DOT__dmem_wen_r 
+        = ((IData)(vlSelf->tb_gpu_top__DOT__rst_n) 
+           && ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__if_valid) 
+               & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_write)));
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__6__KET____DOT__u_lane__DOT__dmem_wen_r 
+        = ((IData)(vlSelf->tb_gpu_top__DOT__rst_n) 
+           && ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__if_valid) 
+               & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_write)));
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__5__KET____DOT__u_lane__DOT__dmem_wen_r 
+        = ((IData)(vlSelf->tb_gpu_top__DOT__rst_n) 
+           && ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__if_valid) 
+               & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_write)));
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__4__KET____DOT__u_lane__DOT__dmem_wen_r 
+        = ((IData)(vlSelf->tb_gpu_top__DOT__rst_n) 
+           && ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__if_valid) 
+               & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_write)));
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__3__KET____DOT__u_lane__DOT__dmem_wen_r 
+        = ((IData)(vlSelf->tb_gpu_top__DOT__rst_n) 
+           && ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__if_valid) 
+               & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_write)));
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__2__KET____DOT__u_lane__DOT__dmem_wen_r 
+        = ((IData)(vlSelf->tb_gpu_top__DOT__rst_n) 
+           && ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__if_valid) 
+               & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_write)));
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__1__KET____DOT__u_lane__DOT__dmem_wen_r 
+        = ((IData)(vlSelf->tb_gpu_top__DOT__rst_n) 
+           && ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__if_valid) 
+               & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_write)));
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__0__KET____DOT__u_lane__DOT__dmem_wen_r 
+        = ((IData)(vlSelf->tb_gpu_top__DOT__rst_n) 
+           && ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__if_valid) 
+               & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_write)));
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__7__KET____DOT__u_lane__DOT__dmem_ren_r 
+        = ((IData)(vlSelf->tb_gpu_top__DOT__rst_n) 
+           && ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__if_valid) 
+               & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_read)));
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__6__KET____DOT__u_lane__DOT__dmem_ren_r 
+        = ((IData)(vlSelf->tb_gpu_top__DOT__rst_n) 
+           && ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__if_valid) 
+               & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_read)));
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__5__KET____DOT__u_lane__DOT__dmem_ren_r 
+        = ((IData)(vlSelf->tb_gpu_top__DOT__rst_n) 
+           && ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__if_valid) 
+               & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_read)));
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__4__KET____DOT__u_lane__DOT__dmem_ren_r 
+        = ((IData)(vlSelf->tb_gpu_top__DOT__rst_n) 
+           && ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__if_valid) 
+               & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_read)));
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__3__KET____DOT__u_lane__DOT__dmem_ren_r 
+        = ((IData)(vlSelf->tb_gpu_top__DOT__rst_n) 
+           && ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__if_valid) 
+               & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_read)));
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__2__KET____DOT__u_lane__DOT__dmem_ren_r 
+        = ((IData)(vlSelf->tb_gpu_top__DOT__rst_n) 
+           && ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__if_valid) 
+               & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_read)));
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__1__KET____DOT__u_lane__DOT__dmem_ren_r 
+        = ((IData)(vlSelf->tb_gpu_top__DOT__rst_n) 
+           && ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__if_valid) 
+               & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_read)));
+    vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__0__KET____DOT__u_lane__DOT__dmem_ren_r 
+        = ((IData)(vlSelf->tb_gpu_top__DOT__rst_n) 
+           && ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__if_valid) 
+               & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_read)));
     if ((1U & ((~ (IData)(vlSelf->tb_gpu_top__DOT__rst_n)) 
                | (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__branch_taken)))) {
-        vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_write = 0U;
         vlSelf->tb_gpu_top__DOT__dut__DOT__id_branch = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_read = 0U;
         vlSelf->tb_gpu_top__DOT__dut__DOT__id_reg_write = 0U;
         vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs1_addr_out = 0U;
         vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_addr_out = 0U;
-    } else if ((1U & (~ (IData)((0U != (0xffU & (- (IData)((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__dmem_ren))))))))) {
-        vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_write 
-            = vlSelf->tb_gpu_top__DOT__dut__DOT__u_decode__DOT__mem_write;
+        vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_write = 0U;
+        vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_read = 0U;
+    } else if ((1U & (~ (IData)((0U != (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren)))))) {
         vlSelf->tb_gpu_top__DOT__dut__DOT__id_branch 
             = vlSelf->tb_gpu_top__DOT__dut__DOT__u_decode__DOT__branch;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_read 
-            = vlSelf->tb_gpu_top__DOT__dut__DOT__u_decode__DOT__mem_read;
         vlSelf->tb_gpu_top__DOT__dut__DOT__id_reg_write 
             = vlSelf->tb_gpu_top__DOT__dut__DOT__u_decode__DOT__reg_write;
         vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs1_addr_out 
@@ -5892,6 +6122,10 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__0(Vtb_gpu_top___024
         vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_addr_out 
             = (0x1fU & (vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr 
                         >> 0x14U));
+        vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_write 
+            = vlSelf->tb_gpu_top__DOT__dut__DOT__u_decode__DOT__mem_write;
+        vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_read 
+            = vlSelf->tb_gpu_top__DOT__dut__DOT__u_decode__DOT__mem_read;
     }
     if (__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__warp_state__v0) {
         vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__warp_state[0U] 
@@ -5975,33 +6209,64 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__1(Vtb_gpu_top___024
     CData/*0:0*/ __Vdlyvset__tb_gpu_top__DOT__dut__DOT__regfiles__BRA__7__KET____DOT__u_regfile__DOT__regs__v0;
     __Vdlyvset__tb_gpu_top__DOT__dut__DOT__regfiles__BRA__7__KET____DOT__u_regfile__DOT__regs__v0 = 0;
     // Body
-    if (VL_UNLIKELY(vlSelf->tb_gpu_top__DOT__rst_n)) {
-        VL_WRITEF("SCHED: valid=%0# active_warp=%0# stall=%0b dmem_ren=%0b\n",
-                  1,vlSelf->tb_gpu_top__DOT__dut__DOT__sched_valid,
-                  1,(IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr),
+    VL_WRITEF("RR: rr_ptr=%0# next=%0# any_ready=%0b ws0=%0b ws1=%0b\n",
+              1,vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr,
+              1,(IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__next_warp),
+              1,vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__any_ready,
+              1,(1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__warp_stall)),
+              1,(1U & ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__warp_stall) 
+                       >> 1U)));
+    if (VL_UNLIKELY((0U != (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__warp_stall)))) {
+        VL_WRITEF("WSTALL: warp_stall=%02b active_warp=%0# dmem_pending=%0b\n",
                   2,vlSelf->tb_gpu_top__DOT__dut__DOT__warp_stall,
-                  8,(0xffU & (- (IData)((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__dmem_ren)))));
+                  1,(IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr),
+                  1,(0U != (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren)));
+    }
+    if (VL_UNLIKELY((0U != (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__warp_stall)))) {
+        VL_WRITEF("WSTALL: warp_stall=%02b active_warp=%0# dmem_pending=%0b\n",
+                  2,vlSelf->tb_gpu_top__DOT__dut__DOT__warp_stall,
+                  1,(IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr),
+                  1,(0U != (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren)));
+    }
+    if (VL_UNLIKELY((0U != (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__warp_stall)))) {
+        VL_WRITEF("WSTALL: warp_stall=%02b active_warp=%0# dmem_pending=%0b\n",
+                  2,vlSelf->tb_gpu_top__DOT__dut__DOT__warp_stall,
+                  1,(IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr),
+                  1,(0U != (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren)));
+    }
+    if (VL_UNLIKELY((0U != (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__warp_stall)))) {
+        VL_WRITEF("WSTALL: warp_stall=%02b active_warp=%0# dmem_pending=%0b\n",
+                  2,vlSelf->tb_gpu_top__DOT__dut__DOT__warp_stall,
+                  1,(IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr),
+                  1,(0U != (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren)));
     }
     if (VL_UNLIKELY(vlSelf->tb_gpu_top__DOT__rst_n)) {
         VL_WRITEF("SCHED: valid=%0# active_warp=%0# stall=%0b dmem_ren=%0b\n",
                   1,vlSelf->tb_gpu_top__DOT__dut__DOT__sched_valid,
                   1,(IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr),
                   2,vlSelf->tb_gpu_top__DOT__dut__DOT__warp_stall,
-                  8,(0xffU & (- (IData)((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__dmem_ren)))));
+                  8,(IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren));
     }
     if (VL_UNLIKELY(vlSelf->tb_gpu_top__DOT__rst_n)) {
         VL_WRITEF("SCHED: valid=%0# active_warp=%0# stall=%0b dmem_ren=%0b\n",
                   1,vlSelf->tb_gpu_top__DOT__dut__DOT__sched_valid,
                   1,(IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr),
                   2,vlSelf->tb_gpu_top__DOT__dut__DOT__warp_stall,
-                  8,(0xffU & (- (IData)((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__dmem_ren)))));
+                  8,(IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren));
     }
     if (VL_UNLIKELY(vlSelf->tb_gpu_top__DOT__rst_n)) {
         VL_WRITEF("SCHED: valid=%0# active_warp=%0# stall=%0b dmem_ren=%0b\n",
                   1,vlSelf->tb_gpu_top__DOT__dut__DOT__sched_valid,
                   1,(IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr),
                   2,vlSelf->tb_gpu_top__DOT__dut__DOT__warp_stall,
-                  8,(0xffU & (- (IData)((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__dmem_ren)))));
+                  8,(IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren));
+    }
+    if (VL_UNLIKELY(vlSelf->tb_gpu_top__DOT__rst_n)) {
+        VL_WRITEF("SCHED: valid=%0# active_warp=%0# stall=%0b dmem_ren=%0b\n",
+                  1,vlSelf->tb_gpu_top__DOT__dut__DOT__sched_valid,
+                  1,(IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr),
+                  2,vlSelf->tb_gpu_top__DOT__dut__DOT__warp_stall,
+                  8,(IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren));
     }
     vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v0 = 0U;
     vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v1 = 0U;
@@ -6327,7 +6592,7 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__1(Vtb_gpu_top___024
                 = vlSelf->tb_gpu_top__DOT__dut__DOT__id_warp_id;
         }
     }
-    if (vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__dmem_wen) {
+    if ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_wen))) {
         if ((0U == (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
             if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[0U])) {
                 if ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[0U])) {
@@ -6364,6 +6629,37 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__1(Vtb_gpu_top___024
                     = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
                     [0U];
             }
+        } else if ((1U == (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+            if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[0U])) {
+                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[0U])) {
+                    vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v4 
+                        = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
+                    vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v4 = 1U;
+                    vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v4 = 0x10U;
+                    vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v4 
+                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                        [0U];
+                }
+            } else {
+                vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v5 
+                    = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
+                vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v5 = 1U;
+                vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v5 = 0U;
+                vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v5 
+                    = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                    [0U];
+            }
+        } else {
+            vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v6 
+                = vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out;
+            vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v6 = 1U;
+            vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v6 
+                = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                [0U];
+        }
+    }
+    if ((2U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_wen))) {
+        if ((0U == (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
             if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[1U])) {
                 if ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[1U])) {
                     vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v7 
@@ -6399,6 +6695,37 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__1(Vtb_gpu_top___024
                     = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
                     [1U];
             }
+        } else if ((1U == (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+            if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[1U])) {
+                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[1U])) {
+                    vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v11 
+                        = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
+                    vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v11 = 1U;
+                    vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v11 = 0x10U;
+                    vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v11 
+                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                        [1U];
+                }
+            } else {
+                vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v12 
+                    = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
+                vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v12 = 1U;
+                vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v12 = 0U;
+                vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v12 
+                    = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                    [1U];
+            }
+        } else {
+            vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v13 
+                = vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out;
+            vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v13 = 1U;
+            vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v13 
+                = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                [1U];
+        }
+    }
+    if ((4U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_wen))) {
+        if ((0U == (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
             if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[2U])) {
                 if ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[2U])) {
                     vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v14 
@@ -6434,6 +6761,37 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__1(Vtb_gpu_top___024
                     = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
                     [2U];
             }
+        } else if ((1U == (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+            if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[2U])) {
+                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[2U])) {
+                    vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v18 
+                        = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
+                    vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v18 = 1U;
+                    vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v18 = 0x10U;
+                    vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v18 
+                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                        [2U];
+                }
+            } else {
+                vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v19 
+                    = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
+                vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v19 = 1U;
+                vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v19 = 0U;
+                vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v19 
+                    = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                    [2U];
+            }
+        } else {
+            vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v20 
+                = vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out;
+            vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v20 = 1U;
+            vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v20 
+                = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                [2U];
+        }
+    }
+    if ((8U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_wen))) {
+        if ((0U == (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
             if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[3U])) {
                 if ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[3U])) {
                     vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v21 
@@ -6469,6 +6827,37 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__1(Vtb_gpu_top___024
                     = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
                     [3U];
             }
+        } else if ((1U == (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+            if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[3U])) {
+                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[3U])) {
+                    vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v25 
+                        = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
+                    vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v25 = 1U;
+                    vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v25 = 0x10U;
+                    vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v25 
+                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                        [3U];
+                }
+            } else {
+                vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v26 
+                    = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
+                vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v26 = 1U;
+                vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v26 = 0U;
+                vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v26 
+                    = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                    [3U];
+            }
+        } else {
+            vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v27 
+                = vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out;
+            vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v27 = 1U;
+            vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v27 
+                = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                [3U];
+        }
+    }
+    if ((0x10U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_wen))) {
+        if ((0U == (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
             if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[4U])) {
                 if ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[4U])) {
                     vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v28 
@@ -6504,6 +6893,37 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__1(Vtb_gpu_top___024
                     = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
                     [4U];
             }
+        } else if ((1U == (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+            if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[4U])) {
+                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[4U])) {
+                    vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v32 
+                        = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
+                    vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v32 = 1U;
+                    vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v32 = 0x10U;
+                    vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v32 
+                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                        [4U];
+                }
+            } else {
+                vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v33 
+                    = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
+                vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v33 = 1U;
+                vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v33 = 0U;
+                vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v33 
+                    = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                    [4U];
+            }
+        } else {
+            vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v34 
+                = vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out;
+            vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v34 = 1U;
+            vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v34 
+                = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                [4U];
+        }
+    }
+    if ((0x20U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_wen))) {
+        if ((0U == (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
             if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[5U])) {
                 if ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[5U])) {
                     vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v35 
@@ -6539,6 +6959,37 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__1(Vtb_gpu_top___024
                     = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
                     [5U];
             }
+        } else if ((1U == (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+            if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[5U])) {
+                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[5U])) {
+                    vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v39 
+                        = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
+                    vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v39 = 1U;
+                    vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v39 = 0x10U;
+                    vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v39 
+                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                        [5U];
+                }
+            } else {
+                vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v40 
+                    = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
+                vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v40 = 1U;
+                vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v40 = 0U;
+                vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v40 
+                    = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                    [5U];
+            }
+        } else {
+            vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v41 
+                = vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out;
+            vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v41 = 1U;
+            vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v41 
+                = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                [5U];
+        }
+    }
+    if ((0x40U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_wen))) {
+        if ((0U == (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
             if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[6U])) {
                 if ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[6U])) {
                     vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v42 
@@ -6574,6 +7025,37 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__1(Vtb_gpu_top___024
                     = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
                     [6U];
             }
+        } else if ((1U == (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+            if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[6U])) {
+                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[6U])) {
+                    vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v46 
+                        = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
+                    vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v46 = 1U;
+                    vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v46 = 0x10U;
+                    vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v46 
+                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                        [6U];
+                }
+            } else {
+                vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v47 
+                    = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
+                vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v47 = 1U;
+                vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v47 = 0U;
+                vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v47 
+                    = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                    [6U];
+            }
+        } else {
+            vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v48 
+                = vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out;
+            vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v48 = 1U;
+            vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v48 
+                = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                [6U];
+        }
+    }
+    if ((0x80U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_wen))) {
+        if ((0U == (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
             if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[7U])) {
                 if ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[7U])) {
                     vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v49 
@@ -6610,139 +7092,6 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__1(Vtb_gpu_top___024
                     [7U];
             }
         } else if ((1U == (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
-            if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[0U])) {
-                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[0U])) {
-                    vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v4 
-                        = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
-                    vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v4 = 1U;
-                    vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v4 = 0x10U;
-                    vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v4 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [0U];
-                }
-            } else {
-                vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v5 
-                    = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
-                vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v5 = 1U;
-                vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v5 = 0U;
-                vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v5 
-                    = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                    [0U];
-            }
-            if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[1U])) {
-                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[1U])) {
-                    vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v11 
-                        = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
-                    vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v11 = 1U;
-                    vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v11 = 0x10U;
-                    vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v11 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [1U];
-                }
-            } else {
-                vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v12 
-                    = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
-                vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v12 = 1U;
-                vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v12 = 0U;
-                vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v12 
-                    = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                    [1U];
-            }
-            if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[2U])) {
-                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[2U])) {
-                    vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v18 
-                        = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
-                    vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v18 = 1U;
-                    vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v18 = 0x10U;
-                    vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v18 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [2U];
-                }
-            } else {
-                vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v19 
-                    = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
-                vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v19 = 1U;
-                vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v19 = 0U;
-                vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v19 
-                    = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                    [2U];
-            }
-            if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[3U])) {
-                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[3U])) {
-                    vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v25 
-                        = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
-                    vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v25 = 1U;
-                    vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v25 = 0x10U;
-                    vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v25 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [3U];
-                }
-            } else {
-                vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v26 
-                    = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
-                vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v26 = 1U;
-                vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v26 = 0U;
-                vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v26 
-                    = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                    [3U];
-            }
-            if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[4U])) {
-                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[4U])) {
-                    vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v32 
-                        = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
-                    vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v32 = 1U;
-                    vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v32 = 0x10U;
-                    vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v32 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [4U];
-                }
-            } else {
-                vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v33 
-                    = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
-                vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v33 = 1U;
-                vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v33 = 0U;
-                vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v33 
-                    = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                    [4U];
-            }
-            if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[5U])) {
-                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[5U])) {
-                    vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v39 
-                        = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
-                    vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v39 = 1U;
-                    vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v39 = 0x10U;
-                    vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v39 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [5U];
-                }
-            } else {
-                vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v40 
-                    = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
-                vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v40 = 1U;
-                vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v40 = 0U;
-                vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v40 
-                    = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                    [5U];
-            }
-            if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[6U])) {
-                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[6U])) {
-                    vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v46 
-                        = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
-                    vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v46 = 1U;
-                    vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v46 = 0x10U;
-                    vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v46 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [6U];
-                }
-            } else {
-                vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v47 
-                    = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out);
-                vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v47 = 1U;
-                vlSelf->__Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v47 = 0U;
-                vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v47 
-                    = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                    [6U];
-            }
             if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[7U])) {
                 if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[7U])) {
                     vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v53 
@@ -6763,48 +7112,6 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__1(Vtb_gpu_top___024
                     [7U];
             }
         } else {
-            vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v6 
-                = vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out;
-            vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v6 = 1U;
-            vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v6 
-                = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                [0U];
-            vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v13 
-                = vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out;
-            vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v13 = 1U;
-            vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v13 
-                = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                [1U];
-            vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v20 
-                = vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out;
-            vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v20 = 1U;
-            vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v20 
-                = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                [2U];
-            vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v27 
-                = vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out;
-            vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v27 = 1U;
-            vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v27 
-                = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                [3U];
-            vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v34 
-                = vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out;
-            vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v34 = 1U;
-            vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v34 
-                = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                [4U];
-            vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v41 
-                = vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out;
-            vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v41 = 1U;
-            vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v41 
-                = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                [5U];
-            vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v48 
-                = vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out;
-            vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v48 = 1U;
-            vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v48 
-                = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                [6U];
             vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v55 
                 = vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out;
             vlSelf->__Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v55 = 1U;
@@ -6877,46 +7184,34 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__2(Vtb_gpu_top___024
     IData/*31:0*/ tb_gpu_top__DOT__dut__DOT__lanes__BRA__0__KET____DOT__u_lane__DOT____VdfgExtracted_h1c3c5fe0__0;
     tb_gpu_top__DOT__dut__DOT__lanes__BRA__0__KET____DOT__u_lane__DOT____VdfgExtracted_h1c3c5fe0__0 = 0;
     // Body
+    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_wen = (
+                                                   ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__7__KET____DOT__u_lane__DOT__dmem_wen_r) 
+                                                    << 7U) 
+                                                   | (((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__6__KET____DOT__u_lane__DOT__dmem_wen_r) 
+                                                       << 6U) 
+                                                      | (((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__5__KET____DOT__u_lane__DOT__dmem_wen_r) 
+                                                          << 5U) 
+                                                         | (((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__4__KET____DOT__u_lane__DOT__dmem_wen_r) 
+                                                             << 4U) 
+                                                            | (((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__3__KET____DOT__u_lane__DOT__dmem_wen_r) 
+                                                                << 3U) 
+                                                               | (((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__2__KET____DOT__u_lane__DOT__dmem_wen_r) 
+                                                                   << 2U) 
+                                                                  | (((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__1__KET____DOT__u_lane__DOT__dmem_wen_r) 
+                                                                      << 1U) 
+                                                                     | (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__0__KET____DOT__u_lane__DOT__dmem_wen_r))))))));
     if (vlSelf->tb_gpu_top__DOT__rst_n) {
-        if ((1U & (~ (IData)((0U != (0xffU & (- (IData)((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__dmem_ren))))))))) {
+        if ((1U & (~ (IData)((0U != (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren)))))) {
             vlSelf->tb_gpu_top__DOT__dut__DOT__if_valid 
                 = vlSelf->tb_gpu_top__DOT__dut__DOT__sched_valid;
         }
-        if (vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__dmem_ren) {
+        if ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren))) {
             if ((4U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
                 if ((2U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
                     vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[0U] 
                         = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
                         [0U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
                         [0U]];
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[1U] 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                        [1U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [1U]];
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[2U] 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                        [2U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [2U]];
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[3U] 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                        [3U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [3U]];
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[4U] 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                        [4U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [4U]];
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[5U] 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                        [5U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [5U]];
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[6U] 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                        [6U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [6U]];
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[7U] 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                        [7U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [7U]];
                 } else if ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
                     if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[0U])) {
                         if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[0U])) {
@@ -6930,97 +7225,6 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__2(Vtb_gpu_top___024
                             = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
                                [0U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
                                [0U]]);
-                    }
-                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[1U])) {
-                        if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[1U])) {
-                            vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[1U] 
-                                = (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                   [1U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                   [1U]] >> 0x10U);
-                        }
-                    } else {
-                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[1U] 
-                            = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                               [1U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                               [1U]]);
-                    }
-                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[2U])) {
-                        if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[2U])) {
-                            vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[2U] 
-                                = (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                   [2U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                   [2U]] >> 0x10U);
-                        }
-                    } else {
-                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[2U] 
-                            = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                               [2U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                               [2U]]);
-                    }
-                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[3U])) {
-                        if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[3U])) {
-                            vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[3U] 
-                                = (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                   [3U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                   [3U]] >> 0x10U);
-                        }
-                    } else {
-                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[3U] 
-                            = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                               [3U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                               [3U]]);
-                    }
-                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[4U])) {
-                        if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[4U])) {
-                            vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[4U] 
-                                = (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                   [4U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                   [4U]] >> 0x10U);
-                        }
-                    } else {
-                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[4U] 
-                            = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                               [4U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                               [4U]]);
-                    }
-                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[5U])) {
-                        if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[5U])) {
-                            vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[5U] 
-                                = (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                   [5U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                   [5U]] >> 0x10U);
-                        }
-                    } else {
-                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[5U] 
-                            = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                               [5U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                               [5U]]);
-                    }
-                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[6U])) {
-                        if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[6U])) {
-                            vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[6U] 
-                                = (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                   [6U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                   [6U]] >> 0x10U);
-                        }
-                    } else {
-                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[6U] 
-                            = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                               [6U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                               [6U]]);
-                    }
-                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[7U])) {
-                        if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[7U])) {
-                            vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[7U] 
-                                = (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                   [7U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                   [7U]] >> 0x10U);
-                        }
-                    } else {
-                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[7U] 
-                            = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                               [7U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                               [7U]]);
                     }
                 } else {
                     vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[0U] 
@@ -7039,187 +7243,15 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__2(Vtb_gpu_top___024
                                 : (0xffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
                                    [0U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
                                    [0U]])));
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[1U] 
-                        = ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[1U])
-                            ? ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[1U])
-                                ? (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                   [1U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                   [1U]] >> 0x18U) : 
-                               (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                         [1U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                         [1U]] >> 0x10U)))
-                            : ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[1U])
-                                ? (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                            [1U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                            [1U]] >> 8U))
-                                : (0xffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                   [1U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                   [1U]])));
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[2U] 
-                        = ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[2U])
-                            ? ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[2U])
-                                ? (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                   [2U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                   [2U]] >> 0x18U) : 
-                               (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                         [2U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                         [2U]] >> 0x10U)))
-                            : ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[2U])
-                                ? (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                            [2U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                            [2U]] >> 8U))
-                                : (0xffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                   [2U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                   [2U]])));
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[3U] 
-                        = ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[3U])
-                            ? ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[3U])
-                                ? (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                   [3U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                   [3U]] >> 0x18U) : 
-                               (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                         [3U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                         [3U]] >> 0x10U)))
-                            : ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[3U])
-                                ? (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                            [3U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                            [3U]] >> 8U))
-                                : (0xffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                   [3U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                   [3U]])));
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[4U] 
-                        = ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[4U])
-                            ? ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[4U])
-                                ? (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                   [4U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                   [4U]] >> 0x18U) : 
-                               (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                         [4U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                         [4U]] >> 0x10U)))
-                            : ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[4U])
-                                ? (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                            [4U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                            [4U]] >> 8U))
-                                : (0xffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                   [4U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                   [4U]])));
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[5U] 
-                        = ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[5U])
-                            ? ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[5U])
-                                ? (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                   [5U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                   [5U]] >> 0x18U) : 
-                               (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                         [5U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                         [5U]] >> 0x10U)))
-                            : ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[5U])
-                                ? (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                            [5U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                            [5U]] >> 8U))
-                                : (0xffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                   [5U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                   [5U]])));
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[6U] 
-                        = ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[6U])
-                            ? ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[6U])
-                                ? (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                   [6U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                   [6U]] >> 0x18U) : 
-                               (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                         [6U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                         [6U]] >> 0x10U)))
-                            : ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[6U])
-                                ? (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                            [6U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                            [6U]] >> 8U))
-                                : (0xffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                   [6U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                   [6U]])));
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[7U] 
-                        = ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[7U])
-                            ? ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[7U])
-                                ? (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                   [7U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                   [7U]] >> 0x18U) : 
-                               (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                         [7U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                         [7U]] >> 0x10U)))
-                            : ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[7U])
-                                ? (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                            [7U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                            [7U]] >> 8U))
-                                : (0xffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                   [7U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                   [7U]])));
                 }
             } else if ((2U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
-                if ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[0U] 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                        [0U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [0U]];
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[1U] 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                        [1U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [1U]];
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[2U] 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                        [2U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [2U]];
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[3U] 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                        [3U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [3U]];
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[4U] 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                        [4U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [4U]];
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[5U] 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                        [5U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [5U]];
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[6U] 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                        [6U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [6U]];
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[7U] 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                        [7U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [7U]];
-                } else {
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[0U] 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                        [0U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [0U]];
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[1U] 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                        [1U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [1U]];
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[2U] 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                        [2U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [2U]];
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[3U] 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                        [3U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [3U]];
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[4U] 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                        [4U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [4U]];
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[5U] 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                        [5U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [5U]];
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[6U] 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                        [6U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [6U]];
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[7U] 
-                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                        [7U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                        [7U]];
-                }
+                vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[0U] 
+                    = ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))
+                        ? vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                       [0U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                       [0U]] : vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                       [0U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                       [0U]]);
             } else if ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
                 if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[0U])) {
                     if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[0U])) {
@@ -7243,167 +7275,6 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__2(Vtb_gpu_top___024
                                          vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
                                          [0U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
                                          [0U]]));
-                }
-                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[1U])) {
-                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[1U])) {
-                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[1U] 
-                            = (((- (IData)((vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                            [1U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                            [1U]] >> 0x1fU))) 
-                                << 0x10U) | (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                             [1U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                             [1U]] 
-                                             >> 0x10U));
-                    }
-                } else {
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[1U] 
-                        = (((- (IData)((1U & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                              [1U][
-                                              vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                              [1U]] 
-                                              >> 0xfU)))) 
-                            << 0x10U) | (0xffffU & 
-                                         vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                         [1U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                         [1U]]));
-                }
-                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[2U])) {
-                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[2U])) {
-                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[2U] 
-                            = (((- (IData)((vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                            [2U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                            [2U]] >> 0x1fU))) 
-                                << 0x10U) | (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                             [2U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                             [2U]] 
-                                             >> 0x10U));
-                    }
-                } else {
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[2U] 
-                        = (((- (IData)((1U & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                              [2U][
-                                              vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                              [2U]] 
-                                              >> 0xfU)))) 
-                            << 0x10U) | (0xffffU & 
-                                         vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                         [2U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                         [2U]]));
-                }
-                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[3U])) {
-                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[3U])) {
-                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[3U] 
-                            = (((- (IData)((vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                            [3U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                            [3U]] >> 0x1fU))) 
-                                << 0x10U) | (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                             [3U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                             [3U]] 
-                                             >> 0x10U));
-                    }
-                } else {
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[3U] 
-                        = (((- (IData)((1U & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                              [3U][
-                                              vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                              [3U]] 
-                                              >> 0xfU)))) 
-                            << 0x10U) | (0xffffU & 
-                                         vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                         [3U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                         [3U]]));
-                }
-                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[4U])) {
-                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[4U])) {
-                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[4U] 
-                            = (((- (IData)((vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                            [4U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                            [4U]] >> 0x1fU))) 
-                                << 0x10U) | (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                             [4U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                             [4U]] 
-                                             >> 0x10U));
-                    }
-                } else {
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[4U] 
-                        = (((- (IData)((1U & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                              [4U][
-                                              vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                              [4U]] 
-                                              >> 0xfU)))) 
-                            << 0x10U) | (0xffffU & 
-                                         vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                         [4U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                         [4U]]));
-                }
-                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[5U])) {
-                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[5U])) {
-                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[5U] 
-                            = (((- (IData)((vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                            [5U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                            [5U]] >> 0x1fU))) 
-                                << 0x10U) | (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                             [5U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                             [5U]] 
-                                             >> 0x10U));
-                    }
-                } else {
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[5U] 
-                        = (((- (IData)((1U & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                              [5U][
-                                              vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                              [5U]] 
-                                              >> 0xfU)))) 
-                            << 0x10U) | (0xffffU & 
-                                         vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                         [5U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                         [5U]]));
-                }
-                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[6U])) {
-                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[6U])) {
-                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[6U] 
-                            = (((- (IData)((vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                            [6U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                            [6U]] >> 0x1fU))) 
-                                << 0x10U) | (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                             [6U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                             [6U]] 
-                                             >> 0x10U));
-                    }
-                } else {
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[6U] 
-                        = (((- (IData)((1U & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                              [6U][
-                                              vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                              [6U]] 
-                                              >> 0xfU)))) 
-                            << 0x10U) | (0xffffU & 
-                                         vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                         [6U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                         [6U]]));
-                }
-                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[7U])) {
-                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[7U])) {
-                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[7U] 
-                            = (((- (IData)((vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                            [7U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                            [7U]] >> 0x1fU))) 
-                                << 0x10U) | (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                             [7U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                             [7U]] 
-                                             >> 0x10U));
-                    }
-                } else {
-                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[7U] 
-                        = (((- (IData)((1U & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                              [7U][
-                                              vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                              [7U]] 
-                                              >> 0xfU)))) 
-                            << 0x10U) | (0xffffU & 
-                                         vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
-                                         [7U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
-                                         [7U]]));
                 }
             } else {
                 vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[0U] 
@@ -7451,6 +7322,80 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__2(Vtb_gpu_top___024
                                 << 8U) | (0xffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
                                           [0U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
                                           [0U]]))));
+            }
+        }
+        if ((2U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren))) {
+            if ((4U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                if ((2U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[1U] 
+                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                        [1U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                        [1U]];
+                } else if ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[1U])) {
+                        if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[1U])) {
+                            vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[1U] 
+                                = (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                   [1U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                   [1U]] >> 0x10U);
+                        }
+                    } else {
+                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[1U] 
+                            = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                               [1U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                               [1U]]);
+                    }
+                } else {
+                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[1U] 
+                        = ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[1U])
+                            ? ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[1U])
+                                ? (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                   [1U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                   [1U]] >> 0x18U) : 
+                               (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                         [1U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                         [1U]] >> 0x10U)))
+                            : ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[1U])
+                                ? (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                            [1U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                            [1U]] >> 8U))
+                                : (0xffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                   [1U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                   [1U]])));
+                }
+            } else if ((2U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[1U] 
+                    = ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))
+                        ? vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                       [1U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                       [1U]] : vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                       [1U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                       [1U]]);
+            } else if ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[1U])) {
+                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[1U])) {
+                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[1U] 
+                            = (((- (IData)((vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                            [1U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                            [1U]] >> 0x1fU))) 
+                                << 0x10U) | (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                             [1U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                             [1U]] 
+                                             >> 0x10U));
+                    }
+                } else {
+                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[1U] 
+                        = (((- (IData)((1U & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                              [1U][
+                                              vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                              [1U]] 
+                                              >> 0xfU)))) 
+                            << 0x10U) | (0xffffU & 
+                                         vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                         [1U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                         [1U]]));
+                }
+            } else {
                 vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[1U] 
                     = ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[1U])
                         ? ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[1U])
@@ -7496,6 +7441,80 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__2(Vtb_gpu_top___024
                                 << 8U) | (0xffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
                                           [1U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
                                           [1U]]))));
+            }
+        }
+        if ((4U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren))) {
+            if ((4U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                if ((2U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[2U] 
+                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                        [2U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                        [2U]];
+                } else if ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[2U])) {
+                        if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[2U])) {
+                            vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[2U] 
+                                = (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                   [2U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                   [2U]] >> 0x10U);
+                        }
+                    } else {
+                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[2U] 
+                            = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                               [2U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                               [2U]]);
+                    }
+                } else {
+                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[2U] 
+                        = ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[2U])
+                            ? ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[2U])
+                                ? (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                   [2U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                   [2U]] >> 0x18U) : 
+                               (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                         [2U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                         [2U]] >> 0x10U)))
+                            : ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[2U])
+                                ? (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                            [2U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                            [2U]] >> 8U))
+                                : (0xffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                   [2U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                   [2U]])));
+                }
+            } else if ((2U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[2U] 
+                    = ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))
+                        ? vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                       [2U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                       [2U]] : vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                       [2U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                       [2U]]);
+            } else if ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[2U])) {
+                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[2U])) {
+                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[2U] 
+                            = (((- (IData)((vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                            [2U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                            [2U]] >> 0x1fU))) 
+                                << 0x10U) | (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                             [2U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                             [2U]] 
+                                             >> 0x10U));
+                    }
+                } else {
+                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[2U] 
+                        = (((- (IData)((1U & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                              [2U][
+                                              vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                              [2U]] 
+                                              >> 0xfU)))) 
+                            << 0x10U) | (0xffffU & 
+                                         vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                         [2U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                         [2U]]));
+                }
+            } else {
                 vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[2U] 
                     = ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[2U])
                         ? ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[2U])
@@ -7541,6 +7560,80 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__2(Vtb_gpu_top___024
                                 << 8U) | (0xffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
                                           [2U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
                                           [2U]]))));
+            }
+        }
+        if ((8U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren))) {
+            if ((4U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                if ((2U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[3U] 
+                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                        [3U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                        [3U]];
+                } else if ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[3U])) {
+                        if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[3U])) {
+                            vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[3U] 
+                                = (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                   [3U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                   [3U]] >> 0x10U);
+                        }
+                    } else {
+                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[3U] 
+                            = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                               [3U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                               [3U]]);
+                    }
+                } else {
+                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[3U] 
+                        = ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[3U])
+                            ? ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[3U])
+                                ? (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                   [3U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                   [3U]] >> 0x18U) : 
+                               (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                         [3U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                         [3U]] >> 0x10U)))
+                            : ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[3U])
+                                ? (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                            [3U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                            [3U]] >> 8U))
+                                : (0xffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                   [3U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                   [3U]])));
+                }
+            } else if ((2U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[3U] 
+                    = ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))
+                        ? vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                       [3U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                       [3U]] : vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                       [3U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                       [3U]]);
+            } else if ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[3U])) {
+                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[3U])) {
+                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[3U] 
+                            = (((- (IData)((vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                            [3U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                            [3U]] >> 0x1fU))) 
+                                << 0x10U) | (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                             [3U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                             [3U]] 
+                                             >> 0x10U));
+                    }
+                } else {
+                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[3U] 
+                        = (((- (IData)((1U & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                              [3U][
+                                              vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                              [3U]] 
+                                              >> 0xfU)))) 
+                            << 0x10U) | (0xffffU & 
+                                         vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                         [3U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                         [3U]]));
+                }
+            } else {
                 vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[3U] 
                     = ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[3U])
                         ? ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[3U])
@@ -7586,6 +7679,80 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__2(Vtb_gpu_top___024
                                 << 8U) | (0xffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
                                           [3U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
                                           [3U]]))));
+            }
+        }
+        if ((0x10U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren))) {
+            if ((4U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                if ((2U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[4U] 
+                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                        [4U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                        [4U]];
+                } else if ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[4U])) {
+                        if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[4U])) {
+                            vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[4U] 
+                                = (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                   [4U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                   [4U]] >> 0x10U);
+                        }
+                    } else {
+                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[4U] 
+                            = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                               [4U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                               [4U]]);
+                    }
+                } else {
+                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[4U] 
+                        = ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[4U])
+                            ? ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[4U])
+                                ? (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                   [4U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                   [4U]] >> 0x18U) : 
+                               (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                         [4U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                         [4U]] >> 0x10U)))
+                            : ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[4U])
+                                ? (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                            [4U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                            [4U]] >> 8U))
+                                : (0xffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                   [4U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                   [4U]])));
+                }
+            } else if ((2U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[4U] 
+                    = ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))
+                        ? vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                       [4U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                       [4U]] : vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                       [4U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                       [4U]]);
+            } else if ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[4U])) {
+                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[4U])) {
+                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[4U] 
+                            = (((- (IData)((vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                            [4U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                            [4U]] >> 0x1fU))) 
+                                << 0x10U) | (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                             [4U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                             [4U]] 
+                                             >> 0x10U));
+                    }
+                } else {
+                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[4U] 
+                        = (((- (IData)((1U & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                              [4U][
+                                              vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                              [4U]] 
+                                              >> 0xfU)))) 
+                            << 0x10U) | (0xffffU & 
+                                         vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                         [4U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                         [4U]]));
+                }
+            } else {
                 vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[4U] 
                     = ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[4U])
                         ? ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[4U])
@@ -7631,6 +7798,80 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__2(Vtb_gpu_top___024
                                 << 8U) | (0xffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
                                           [4U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
                                           [4U]]))));
+            }
+        }
+        if ((0x20U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren))) {
+            if ((4U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                if ((2U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[5U] 
+                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                        [5U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                        [5U]];
+                } else if ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[5U])) {
+                        if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[5U])) {
+                            vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[5U] 
+                                = (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                   [5U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                   [5U]] >> 0x10U);
+                        }
+                    } else {
+                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[5U] 
+                            = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                               [5U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                               [5U]]);
+                    }
+                } else {
+                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[5U] 
+                        = ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[5U])
+                            ? ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[5U])
+                                ? (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                   [5U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                   [5U]] >> 0x18U) : 
+                               (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                         [5U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                         [5U]] >> 0x10U)))
+                            : ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[5U])
+                                ? (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                            [5U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                            [5U]] >> 8U))
+                                : (0xffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                   [5U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                   [5U]])));
+                }
+            } else if ((2U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[5U] 
+                    = ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))
+                        ? vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                       [5U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                       [5U]] : vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                       [5U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                       [5U]]);
+            } else if ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[5U])) {
+                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[5U])) {
+                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[5U] 
+                            = (((- (IData)((vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                            [5U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                            [5U]] >> 0x1fU))) 
+                                << 0x10U) | (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                             [5U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                             [5U]] 
+                                             >> 0x10U));
+                    }
+                } else {
+                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[5U] 
+                        = (((- (IData)((1U & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                              [5U][
+                                              vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                              [5U]] 
+                                              >> 0xfU)))) 
+                            << 0x10U) | (0xffffU & 
+                                         vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                         [5U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                         [5U]]));
+                }
+            } else {
                 vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[5U] 
                     = ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[5U])
                         ? ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[5U])
@@ -7676,6 +7917,80 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__2(Vtb_gpu_top___024
                                 << 8U) | (0xffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
                                           [5U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
                                           [5U]]))));
+            }
+        }
+        if ((0x40U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren))) {
+            if ((4U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                if ((2U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[6U] 
+                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                        [6U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                        [6U]];
+                } else if ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[6U])) {
+                        if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[6U])) {
+                            vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[6U] 
+                                = (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                   [6U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                   [6U]] >> 0x10U);
+                        }
+                    } else {
+                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[6U] 
+                            = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                               [6U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                               [6U]]);
+                    }
+                } else {
+                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[6U] 
+                        = ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[6U])
+                            ? ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[6U])
+                                ? (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                   [6U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                   [6U]] >> 0x18U) : 
+                               (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                         [6U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                         [6U]] >> 0x10U)))
+                            : ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[6U])
+                                ? (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                            [6U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                            [6U]] >> 8U))
+                                : (0xffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                   [6U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                   [6U]])));
+                }
+            } else if ((2U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[6U] 
+                    = ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))
+                        ? vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                       [6U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                       [6U]] : vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                       [6U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                       [6U]]);
+            } else if ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[6U])) {
+                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[6U])) {
+                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[6U] 
+                            = (((- (IData)((vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                            [6U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                            [6U]] >> 0x1fU))) 
+                                << 0x10U) | (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                             [6U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                             [6U]] 
+                                             >> 0x10U));
+                    }
+                } else {
+                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[6U] 
+                        = (((- (IData)((1U & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                              [6U][
+                                              vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                              [6U]] 
+                                              >> 0xfU)))) 
+                            << 0x10U) | (0xffffU & 
+                                         vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                         [6U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                         [6U]]));
+                }
+            } else {
                 vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[6U] 
                     = ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[6U])
                         ? ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[6U])
@@ -7721,6 +8036,80 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__2(Vtb_gpu_top___024
                                 << 8U) | (0xffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
                                           [6U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
                                           [6U]]))));
+            }
+        }
+        if ((0x80U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren))) {
+            if ((4U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                if ((2U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[7U] 
+                        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                        [7U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                        [7U]];
+                } else if ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[7U])) {
+                        if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[7U])) {
+                            vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[7U] 
+                                = (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                   [7U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                   [7U]] >> 0x10U);
+                        }
+                    } else {
+                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[7U] 
+                            = (0xffffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                               [7U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                               [7U]]);
+                    }
+                } else {
+                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[7U] 
+                        = ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[7U])
+                            ? ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[7U])
+                                ? (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                   [7U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                   [7U]] >> 0x18U) : 
+                               (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                         [7U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                         [7U]] >> 0x10U)))
+                            : ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[7U])
+                                ? (0xffU & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                            [7U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                            [7U]] >> 8U))
+                                : (0xffU & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                   [7U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                   [7U]])));
+                }
+            } else if ((2U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[7U] 
+                    = ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))
+                        ? vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                       [7U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                       [7U]] : vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                       [7U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                       [7U]]);
+            } else if ((1U & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3))) {
+                if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[7U])) {
+                    if ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[7U])) {
+                        vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[7U] 
+                            = (((- (IData)((vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                            [7U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                            [7U]] >> 0x1fU))) 
+                                << 0x10U) | (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                             [7U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                             [7U]] 
+                                             >> 0x10U));
+                    }
+                } else {
+                    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[7U] 
+                        = (((- (IData)((1U & (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                              [7U][
+                                              vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                              [7U]] 
+                                              >> 0xfU)))) 
+                            << 0x10U) | (0xffffU & 
+                                         vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem
+                                         [7U][vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr
+                                         [7U]]));
+                }
+            } else {
                 vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_rdata[7U] 
                     = ((2U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[7U])
                         ? ((1U & vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_addr[7U])
@@ -7788,11 +8177,11 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__2(Vtb_gpu_top___024
         vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs2_out = 0U;
         vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_to_reg = 0U;
         vlSelf->tb_gpu_top__DOT__dut__DOT__id_rd_addr = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__id_jal = 0U;
         vlSelf->tb_gpu_top__DOT__dut__DOT__id_warp_id = 0U;
+        vlSelf->tb_gpu_top__DOT__dut__DOT__id_jal = 0U;
         vlSelf->tb_gpu_top__DOT__dut__DOT__id_pc = 0U;
         vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3 = 0U;
-    } else if ((1U & (~ (IData)((0U != (0xffU & (- (IData)((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__dmem_ren))))))))) {
+    } else if ((1U & (~ (IData)((0U != (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren)))))) {
         vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs1_out 
             = vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__regfiles__BRA__0__KET____DOT__u_regfile__rs1_data;
         vlSelf->tb_gpu_top__DOT__dut__DOT__id_alu_op 
@@ -7807,17 +8196,17 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__2(Vtb_gpu_top___024
         vlSelf->tb_gpu_top__DOT__dut__DOT__id_rd_addr 
             = (0x1fU & (vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr 
                         >> 7U));
-        vlSelf->tb_gpu_top__DOT__dut__DOT__id_jal = 
-            (0x6fU == (0x7fU & vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr));
         vlSelf->tb_gpu_top__DOT__dut__DOT__id_warp_id 
             = vlSelf->tb_gpu_top__DOT__dut__DOT__if_warp;
+        vlSelf->tb_gpu_top__DOT__dut__DOT__id_jal = 
+            (0x6fU == (0x7fU & vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr));
         vlSelf->tb_gpu_top__DOT__dut__DOT__id_pc = vlSelf->tb_gpu_top__DOT__dut__DOT__if_pc;
         vlSelf->tb_gpu_top__DOT__dut__DOT__id_funct3 
             = (7U & (vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr 
                      >> 0xcU));
     }
     if (vlSelf->tb_gpu_top__DOT__rst_n) {
-        if ((1U & (~ (IData)((0U != (0xffU & (- (IData)((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__dmem_ren))))))))) {
+        if ((1U & (~ (IData)((0U != (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren)))))) {
             vlSelf->tb_gpu_top__DOT__dut__DOT__if_warp 
                 = ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__sched_valid) 
                    && (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr));
@@ -7833,19 +8222,11 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__2(Vtb_gpu_top___024
                 vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr = 0x13U;
             }
         }
-        if (vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__any_ready) {
-            vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr 
-                = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__next_warp;
-        }
     } else {
         vlSelf->tb_gpu_top__DOT__dut__DOT__if_warp = 0U;
         vlSelf->tb_gpu_top__DOT__dut__DOT__if_pc = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr = 0U;
         vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr = 0x13U;
     }
-    vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__dmem_wen 
-        = ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_write) 
-           & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__if_valid));
     vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellinp__regfiles__BRA__0__KET____DOT__u_regfile__wr_en 
         = ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_reg_write) 
            & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__if_valid));
@@ -7916,6 +8297,8 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__2(Vtb_gpu_top___024
         = ((0xbU == (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_alu_op))
             ? vlSelf->tb_gpu_top__DOT__dut__DOT__id_pc
             : vlSelf->tb_gpu_top__DOT__dut__DOT__id_rs1_out);
+    vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr 
+        = vlSelf->__Vdly__tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr;
     tb_gpu_top__DOT__dut__DOT__lanes__BRA__0__KET____DOT__u_lane__DOT____VdfgExtracted_hf956df2b__0 
         = (vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__0__KET____DOT__u_lane__DOT__alu_in_a 
            + vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__0__KET____DOT__u_lane__DOT__alu_b);
@@ -8322,45 +8705,30 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__2(Vtb_gpu_top___024
     tb_gpu_top__DOT__dut__DOT____VdfgTmp_h253707d1__0 
         = ((~ (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_warp_id)) 
            & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__branch_taken));
-    vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__dmem_ren 
-        = ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__id_mem_read) 
-           & (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__if_valid));
-    vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__next_warp 
-        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr;
-    vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__any_ready = 0U;
-    vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__candidate 
-        = (1U & VL_MODDIV_III(1, (1U & ((IData)(1U) 
-                                        + (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr))), (IData)(0U)));
-    if ((1U & (~ vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__warp_state
-               [vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__candidate]))) {
-        vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__next_warp 
-            = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__candidate;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__any_ready = 1U;
-    }
-    vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__candidate 
-        = (1U & VL_MODDIV_III(1, (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr), (IData)(0U)));
-    if ((1U & ((~ (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__any_ready)) 
-               & (~ vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__warp_state
-                  [vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__candidate])))) {
-        vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__next_warp 
-            = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__candidate;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__any_ready = 1U;
-    }
-    if ((1U & ((~ (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__any_ready)) 
-               & (~ vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__warp_state
-                  [vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr])))) {
-        vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__next_warp 
-            = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__any_ready = 1U;
-    }
     vlSelf->tb_gpu_top__DOT__dut__DOT__sched_active_pc 
         = (IData)((vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__warp_pc 
                    >> (0x3fU & VL_SHIFTL_III(6,6,32, (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr), 5U))));
+    vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren = (
+                                                   ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__7__KET____DOT__u_lane__DOT__dmem_ren_r) 
+                                                    << 7U) 
+                                                   | (((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__6__KET____DOT__u_lane__DOT__dmem_ren_r) 
+                                                       << 6U) 
+                                                      | (((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__5__KET____DOT__u_lane__DOT__dmem_ren_r) 
+                                                          << 5U) 
+                                                         | (((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__4__KET____DOT__u_lane__DOT__dmem_ren_r) 
+                                                             << 4U) 
+                                                            | (((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__3__KET____DOT__u_lane__DOT__dmem_ren_r) 
+                                                                << 3U) 
+                                                               | (((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__2__KET____DOT__u_lane__DOT__dmem_ren_r) 
+                                                                   << 2U) 
+                                                                  | (((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__1__KET____DOT__u_lane__DOT__dmem_ren_r) 
+                                                                      << 1U) 
+                                                                     | (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__lanes__BRA__0__KET____DOT__u_lane__DOT__dmem_ren_r))))))));
     vlSelf->tb_gpu_top__DOT__dut__DOT__warp_stall = 
         ((((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr) 
-           & (0U != (0xffU & (- (IData)((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__dmem_ren)))))) 
+           & (0U != (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren))) 
           << 1U) | ((~ (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr)) 
-                    & (0U != (0xffU & (- (IData)((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__dmem_ren)))))));
+                    & (0U != (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren))));
     vlSelf->tb_gpu_top__DOT__dut__DOT__u_decode__DOT__alu_op = 0U;
     vlSelf->tb_gpu_top__DOT__dut__DOT__u_decode__DOT__alu_src = 0U;
     vlSelf->tb_gpu_top__DOT__dut__DOT__u_decode__DOT__mem_read = 0U;
@@ -8592,6 +8960,26 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__2(Vtb_gpu_top___024
         = (((- (IData)((vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr 
                         >> 0x1fU))) << 0xcU) | (vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr 
                                                 >> 0x14U));
+    vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__next_warp 
+        = vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr;
+    vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__any_ready = 0U;
+    vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__idx 
+        = VL_MODDIVS_III(32, ((IData)(1U) + (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr)), (IData)(2U));
+    if ((1U & (~ ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__warp_stall) 
+                  >> (1U & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__idx))))) {
+        vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__next_warp 
+            = (1U & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__idx);
+        vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__any_ready = 1U;
+    }
+    vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__idx 
+        = VL_MODDIVS_III(32, ((IData)(2U) + (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr)), (IData)(2U));
+    if ((1U & ((~ (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__any_ready)) 
+               & (~ ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__warp_stall) 
+                     >> (1U & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__idx)))))) {
+        vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__next_warp 
+            = (1U & vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__idx);
+        vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__any_ready = 1U;
+    }
     vlSelf->tb_gpu_top__DOT__dut__DOT__sched_valid 
         = (1U & (~ ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__warp_stall) 
                     >> (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr))));
@@ -8728,7 +9116,7 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__2(Vtb_gpu_top___024
     vlSelf->tb_gpu_top__DOT__dut__DOT__pc_wen_fetch = 0U;
     vlSelf->tb_gpu_top__DOT__dut__DOT__pc_next_fetch = 0ULL;
     if (((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__sched_valid) 
-         & (~ (IData)((0U != (0xffU & (- (IData)((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__dmem_ren))))))))) {
+         & (~ (IData)((0U != (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__dmem_ren)))))) {
         vlSelf->tb_gpu_top__DOT__dut__DOT__pc_wen_fetch 
             = ((IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__pc_wen_fetch) 
                | (3U & ((IData)(1U) << (IData)(vlSelf->tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr))));
@@ -9179,208 +9567,4 @@ VL_INLINE_OPT void Vtb_gpu_top___024root___nba_sequent__TOP__3(Vtb_gpu_top___024
         vlSelf->tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem[7U][vlSelf->__Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v55] 
             = vlSelf->__Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v55;
     }
-}
-
-VL_INLINE_OPT void Vtb_gpu_top___024root___nba_comb__TOP__0(Vtb_gpu_top___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vtb_gpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtb_gpu_top___024root___nba_comb__TOP__0\n"); );
-    // Body
-    if ((0U == (0x1fU & (vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr 
-                         >> 0xfU)))) {
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs1[1U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs1[2U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs1[3U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs1[4U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs1[5U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs1[6U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs1[7U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__regfiles__BRA__0__KET____DOT__u_regfile__rs1_data = 0U;
-    } else if ((0x1eU >= (0x1fU & ((vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr 
-                                    >> 0xfU) - (IData)(1U))))) {
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs1[1U] 
-            = vlSelf->tb_gpu_top__DOT__dut__DOT__regfiles__BRA__1__KET____DOT__u_regfile__DOT__regs
-            [vlSelf->tb_gpu_top__DOT__dut__DOT__if_warp]
-            [1U][(0x1fU & ((vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr 
-                            >> 0xfU) - (IData)(1U)))];
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs1[2U] 
-            = vlSelf->tb_gpu_top__DOT__dut__DOT__regfiles__BRA__2__KET____DOT__u_regfile__DOT__regs
-            [vlSelf->tb_gpu_top__DOT__dut__DOT__if_warp]
-            [2U][(0x1fU & ((vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr 
-                            >> 0xfU) - (IData)(1U)))];
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs1[3U] 
-            = vlSelf->tb_gpu_top__DOT__dut__DOT__regfiles__BRA__3__KET____DOT__u_regfile__DOT__regs
-            [vlSelf->tb_gpu_top__DOT__dut__DOT__if_warp]
-            [3U][(0x1fU & ((vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr 
-                            >> 0xfU) - (IData)(1U)))];
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs1[4U] 
-            = vlSelf->tb_gpu_top__DOT__dut__DOT__regfiles__BRA__4__KET____DOT__u_regfile__DOT__regs
-            [vlSelf->tb_gpu_top__DOT__dut__DOT__if_warp]
-            [4U][(0x1fU & ((vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr 
-                            >> 0xfU) - (IData)(1U)))];
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs1[5U] 
-            = vlSelf->tb_gpu_top__DOT__dut__DOT__regfiles__BRA__5__KET____DOT__u_regfile__DOT__regs
-            [vlSelf->tb_gpu_top__DOT__dut__DOT__if_warp]
-            [5U][(0x1fU & ((vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr 
-                            >> 0xfU) - (IData)(1U)))];
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs1[6U] 
-            = vlSelf->tb_gpu_top__DOT__dut__DOT__regfiles__BRA__6__KET____DOT__u_regfile__DOT__regs
-            [vlSelf->tb_gpu_top__DOT__dut__DOT__if_warp]
-            [6U][(0x1fU & ((vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr 
-                            >> 0xfU) - (IData)(1U)))];
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs1[7U] 
-            = vlSelf->tb_gpu_top__DOT__dut__DOT__regfiles__BRA__7__KET____DOT__u_regfile__DOT__regs
-            [vlSelf->tb_gpu_top__DOT__dut__DOT__if_warp]
-            [7U][(0x1fU & ((vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr 
-                            >> 0xfU) - (IData)(1U)))];
-        vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__regfiles__BRA__0__KET____DOT__u_regfile__rs1_data 
-            = vlSelf->tb_gpu_top__DOT__dut__DOT__regfiles__BRA__0__KET____DOT__u_regfile__DOT__regs
-            [vlSelf->tb_gpu_top__DOT__dut__DOT__if_warp]
-            [0U][(0x1fU & ((vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr 
-                            >> 0xfU) - (IData)(1U)))];
-    } else {
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs1[1U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs1[2U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs1[3U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs1[4U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs1[5U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs1[6U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs1[7U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__regfiles__BRA__0__KET____DOT__u_regfile__rs1_data = 0U;
-    }
-    if ((0U == (0x1fU & (vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr 
-                         >> 0x14U)))) {
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs2[1U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs2[2U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs2[3U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs2[4U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs2[5U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs2[6U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs2[7U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__regfiles__BRA__0__KET____DOT__u_regfile__rs2_data = 0U;
-    } else if ((0x1eU >= (0x1fU & ((vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr 
-                                    >> 0x14U) - (IData)(1U))))) {
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs2[1U] 
-            = vlSelf->tb_gpu_top__DOT__dut__DOT__regfiles__BRA__1__KET____DOT__u_regfile__DOT__regs
-            [vlSelf->tb_gpu_top__DOT__dut__DOT__if_warp]
-            [1U][(0x1fU & ((vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr 
-                            >> 0x14U) - (IData)(1U)))];
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs2[2U] 
-            = vlSelf->tb_gpu_top__DOT__dut__DOT__regfiles__BRA__2__KET____DOT__u_regfile__DOT__regs
-            [vlSelf->tb_gpu_top__DOT__dut__DOT__if_warp]
-            [2U][(0x1fU & ((vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr 
-                            >> 0x14U) - (IData)(1U)))];
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs2[3U] 
-            = vlSelf->tb_gpu_top__DOT__dut__DOT__regfiles__BRA__3__KET____DOT__u_regfile__DOT__regs
-            [vlSelf->tb_gpu_top__DOT__dut__DOT__if_warp]
-            [3U][(0x1fU & ((vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr 
-                            >> 0x14U) - (IData)(1U)))];
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs2[4U] 
-            = vlSelf->tb_gpu_top__DOT__dut__DOT__regfiles__BRA__4__KET____DOT__u_regfile__DOT__regs
-            [vlSelf->tb_gpu_top__DOT__dut__DOT__if_warp]
-            [4U][(0x1fU & ((vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr 
-                            >> 0x14U) - (IData)(1U)))];
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs2[5U] 
-            = vlSelf->tb_gpu_top__DOT__dut__DOT__regfiles__BRA__5__KET____DOT__u_regfile__DOT__regs
-            [vlSelf->tb_gpu_top__DOT__dut__DOT__if_warp]
-            [5U][(0x1fU & ((vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr 
-                            >> 0x14U) - (IData)(1U)))];
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs2[6U] 
-            = vlSelf->tb_gpu_top__DOT__dut__DOT__regfiles__BRA__6__KET____DOT__u_regfile__DOT__regs
-            [vlSelf->tb_gpu_top__DOT__dut__DOT__if_warp]
-            [6U][(0x1fU & ((vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr 
-                            >> 0x14U) - (IData)(1U)))];
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs2[7U] 
-            = vlSelf->tb_gpu_top__DOT__dut__DOT__regfiles__BRA__7__KET____DOT__u_regfile__DOT__regs
-            [vlSelf->tb_gpu_top__DOT__dut__DOT__if_warp]
-            [7U][(0x1fU & ((vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr 
-                            >> 0x14U) - (IData)(1U)))];
-        vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__regfiles__BRA__0__KET____DOT__u_regfile__rs2_data 
-            = vlSelf->tb_gpu_top__DOT__dut__DOT__regfiles__BRA__0__KET____DOT__u_regfile__DOT__regs
-            [vlSelf->tb_gpu_top__DOT__dut__DOT__if_warp]
-            [0U][(0x1fU & ((vlSelf->tb_gpu_top__DOT__dut__DOT__if_instr 
-                            >> 0x14U) - (IData)(1U)))];
-    } else {
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs2[1U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs2[2U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs2[3U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs2[4U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs2[5U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs2[6U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs2[7U] = 0U;
-        vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__regfiles__BRA__0__KET____DOT__u_regfile__rs2_data = 0U;
-    }
-    vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs1[0U] = vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__regfiles__BRA__0__KET____DOT__u_regfile__rs1_data;
-    vlSelf->tb_gpu_top__DOT__dut__DOT__rf_rs2[0U] = vlSelf->tb_gpu_top__DOT__dut__DOT____Vcellout__regfiles__BRA__0__KET____DOT__u_regfile__rs2_data;
-}
-
-void Vtb_gpu_top___024root___eval_nba(Vtb_gpu_top___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vtb_gpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtb_gpu_top___024root___eval_nba\n"); );
-    // Body
-    if ((2ULL & vlSelf->__VnbaTriggered.word(0U))) {
-        Vtb_gpu_top___024root___nba_sequent__TOP__0(vlSelf);
-        vlSelf->__Vm_traceActivity[1U] = 1U;
-    }
-    if ((1ULL & vlSelf->__VnbaTriggered.word(0U))) {
-        Vtb_gpu_top___024root___nba_sequent__TOP__1(vlSelf);
-        vlSelf->__Vm_traceActivity[2U] = 1U;
-    }
-    if ((2ULL & vlSelf->__VnbaTriggered.word(0U))) {
-        Vtb_gpu_top___024root___nba_sequent__TOP__2(vlSelf);
-        vlSelf->__Vm_traceActivity[3U] = 1U;
-    }
-    if ((1ULL & vlSelf->__VnbaTriggered.word(0U))) {
-        Vtb_gpu_top___024root___nba_sequent__TOP__3(vlSelf);
-    }
-    if ((3ULL & vlSelf->__VnbaTriggered.word(0U))) {
-        Vtb_gpu_top___024root___nba_comb__TOP__0(vlSelf);
-        vlSelf->__Vm_traceActivity[4U] = 1U;
-    }
-}
-
-void Vtb_gpu_top___024root___timing_resume(Vtb_gpu_top___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vtb_gpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtb_gpu_top___024root___timing_resume\n"); );
-    // Body
-    if ((1ULL & vlSelf->__VactTriggered.word(0U))) {
-        vlSelf->__VtrigSched_h4954a85e__0.resume("@(posedge tb_gpu_top.clk)");
-    }
-    if ((4ULL & vlSelf->__VactTriggered.word(0U))) {
-        vlSelf->__VdlySched.resume();
-    }
-}
-
-void Vtb_gpu_top___024root___timing_commit(Vtb_gpu_top___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vtb_gpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtb_gpu_top___024root___timing_commit\n"); );
-    // Body
-    if ((! (1ULL & vlSelf->__VactTriggered.word(0U)))) {
-        vlSelf->__VtrigSched_h4954a85e__0.commit("@(posedge tb_gpu_top.clk)");
-    }
-}
-
-void Vtb_gpu_top___024root___eval_triggers__act(Vtb_gpu_top___024root* vlSelf);
-
-bool Vtb_gpu_top___024root___eval_phase__act(Vtb_gpu_top___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vtb_gpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtb_gpu_top___024root___eval_phase__act\n"); );
-    // Init
-    VlTriggerVec<3> __VpreTriggered;
-    CData/*0:0*/ __VactExecute;
-    // Body
-    Vtb_gpu_top___024root___eval_triggers__act(vlSelf);
-    Vtb_gpu_top___024root___timing_commit(vlSelf);
-    __VactExecute = vlSelf->__VactTriggered.any();
-    if (__VactExecute) {
-        __VpreTriggered.andNot(vlSelf->__VactTriggered, vlSelf->__VnbaTriggered);
-        vlSelf->__VnbaTriggered.thisOr(vlSelf->__VactTriggered);
-        Vtb_gpu_top___024root___timing_resume(vlSelf);
-        Vtb_gpu_top___024root___eval_act(vlSelf);
-    }
-    return (__VactExecute);
 }

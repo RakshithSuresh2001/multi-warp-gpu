@@ -37,16 +37,15 @@ class alignas(VL_CACHE_LINE_BYTES) Vtb_gpu_top___024root final : public Verilate
         CData/*2:0*/ tb_gpu_top__DOT__dut__DOT__id_funct3;
         CData/*0:0*/ tb_gpu_top__DOT__dut__DOT__id_jal;
         CData/*0:0*/ tb_gpu_top__DOT__dut__DOT__id_warp_id;
+        CData/*7:0*/ tb_gpu_top__DOT__dut__DOT__dmem_ren;
+        CData/*7:0*/ tb_gpu_top__DOT__dut__DOT__dmem_wen;
         CData/*1:0*/ tb_gpu_top__DOT__dut__DOT__warp_stall;
         CData/*7:0*/ tb_gpu_top__DOT__dut__DOT__lane_branch_taken;
         CData/*0:0*/ tb_gpu_top__DOT__dut__DOT____Vcellinp__regfiles__BRA__0__KET____DOT__u_regfile__wr_en;
         CData/*0:0*/ tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__branch_taken;
-        CData/*0:0*/ tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__dmem_wen;
-        CData/*0:0*/ tb_gpu_top__DOT__dut__DOT____Vcellout__lanes__BRA__0__KET____DOT__u_lane__dmem_ren;
         CData/*0:0*/ tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr;
         CData/*0:0*/ tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__next_warp;
         CData/*0:0*/ tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__any_ready;
-        CData/*0:0*/ tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__candidate;
         CData/*3:0*/ tb_gpu_top__DOT__dut__DOT__u_decode__DOT__alu_op;
         CData/*0:0*/ tb_gpu_top__DOT__dut__DOT__u_decode__DOT__alu_src;
         CData/*0:0*/ tb_gpu_top__DOT__dut__DOT__u_decode__DOT__mem_read;
@@ -54,6 +53,22 @@ class alignas(VL_CACHE_LINE_BYTES) Vtb_gpu_top___024root final : public Verilate
         CData/*0:0*/ tb_gpu_top__DOT__dut__DOT__u_decode__DOT__reg_write;
         CData/*0:0*/ tb_gpu_top__DOT__dut__DOT__u_decode__DOT__branch;
         CData/*0:0*/ tb_gpu_top__DOT__dut__DOT__u_decode__DOT__mem_to_reg;
+        CData/*0:0*/ tb_gpu_top__DOT__dut__DOT__lanes__BRA__0__KET____DOT__u_lane__DOT__dmem_ren_r;
+        CData/*0:0*/ tb_gpu_top__DOT__dut__DOT__lanes__BRA__0__KET____DOT__u_lane__DOT__dmem_wen_r;
+        CData/*0:0*/ tb_gpu_top__DOT__dut__DOT__lanes__BRA__1__KET____DOT__u_lane__DOT__dmem_ren_r;
+        CData/*0:0*/ tb_gpu_top__DOT__dut__DOT__lanes__BRA__1__KET____DOT__u_lane__DOT__dmem_wen_r;
+        CData/*0:0*/ tb_gpu_top__DOT__dut__DOT__lanes__BRA__2__KET____DOT__u_lane__DOT__dmem_ren_r;
+        CData/*0:0*/ tb_gpu_top__DOT__dut__DOT__lanes__BRA__2__KET____DOT__u_lane__DOT__dmem_wen_r;
+        CData/*0:0*/ tb_gpu_top__DOT__dut__DOT__lanes__BRA__3__KET____DOT__u_lane__DOT__dmem_ren_r;
+        CData/*0:0*/ tb_gpu_top__DOT__dut__DOT__lanes__BRA__3__KET____DOT__u_lane__DOT__dmem_wen_r;
+        CData/*0:0*/ tb_gpu_top__DOT__dut__DOT__lanes__BRA__4__KET____DOT__u_lane__DOT__dmem_ren_r;
+        CData/*0:0*/ tb_gpu_top__DOT__dut__DOT__lanes__BRA__4__KET____DOT__u_lane__DOT__dmem_wen_r;
+        CData/*0:0*/ tb_gpu_top__DOT__dut__DOT__lanes__BRA__5__KET____DOT__u_lane__DOT__dmem_ren_r;
+        CData/*0:0*/ tb_gpu_top__DOT__dut__DOT__lanes__BRA__5__KET____DOT__u_lane__DOT__dmem_wen_r;
+        CData/*0:0*/ tb_gpu_top__DOT__dut__DOT__lanes__BRA__6__KET____DOT__u_lane__DOT__dmem_ren_r;
+        CData/*0:0*/ tb_gpu_top__DOT__dut__DOT__lanes__BRA__6__KET____DOT__u_lane__DOT__dmem_wen_r;
+        CData/*0:0*/ tb_gpu_top__DOT__dut__DOT__lanes__BRA__7__KET____DOT__u_lane__DOT__dmem_ren_r;
+        CData/*0:0*/ tb_gpu_top__DOT__dut__DOT__lanes__BRA__7__KET____DOT__u_lane__DOT__dmem_wen_r;
         CData/*7:0*/ __Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v0;
         CData/*4:0*/ __Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v0;
         CData/*7:0*/ __Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v0;
@@ -66,6 +81,8 @@ class alignas(VL_CACHE_LINE_BYTES) Vtb_gpu_top___024root final : public Verilate
         CData/*4:0*/ __Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v2;
         CData/*7:0*/ __Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v2;
         CData/*0:0*/ __Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v2;
+    };
+    struct {
         CData/*7:0*/ __Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v3;
         CData/*4:0*/ __Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v3;
         CData/*7:0*/ __Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v3;
@@ -81,8 +98,6 @@ class alignas(VL_CACHE_LINE_BYTES) Vtb_gpu_top___024root final : public Verilate
         CData/*7:0*/ __Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v7;
         CData/*4:0*/ __Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v7;
         CData/*7:0*/ __Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v7;
-    };
-    struct {
         CData/*0:0*/ __Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v7;
         CData/*7:0*/ __Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v8;
         CData/*4:0*/ __Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v8;
@@ -132,6 +147,8 @@ class alignas(VL_CACHE_LINE_BYTES) Vtb_gpu_top___024root final : public Verilate
         CData/*4:0*/ __Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v21;
         CData/*7:0*/ __Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v21;
         CData/*0:0*/ __Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v21;
+    };
+    struct {
         CData/*7:0*/ __Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v22;
         CData/*4:0*/ __Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v22;
         CData/*7:0*/ __Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v22;
@@ -147,8 +164,6 @@ class alignas(VL_CACHE_LINE_BYTES) Vtb_gpu_top___024root final : public Verilate
         CData/*7:0*/ __Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v25;
         CData/*4:0*/ __Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v25;
         CData/*0:0*/ __Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v25;
-    };
-    struct {
         CData/*7:0*/ __Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v26;
         CData/*4:0*/ __Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v26;
         CData/*0:0*/ __Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v26;
@@ -198,6 +213,8 @@ class alignas(VL_CACHE_LINE_BYTES) Vtb_gpu_top___024root final : public Verilate
         CData/*4:0*/ __Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v39;
         CData/*0:0*/ __Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v39;
         CData/*7:0*/ __Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v40;
+    };
+    struct {
         CData/*4:0*/ __Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v40;
         CData/*0:0*/ __Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v40;
         CData/*7:0*/ __Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v41;
@@ -213,8 +230,6 @@ class alignas(VL_CACHE_LINE_BYTES) Vtb_gpu_top___024root final : public Verilate
         CData/*7:0*/ __Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v44;
         CData/*4:0*/ __Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v44;
         CData/*7:0*/ __Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v44;
-    };
-    struct {
         CData/*0:0*/ __Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v44;
         CData/*7:0*/ __Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v45;
         CData/*4:0*/ __Vdlyvlsb__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v45;
@@ -252,6 +267,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vtb_gpu_top___024root final : public Verilate
         CData/*0:0*/ __Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v54;
         CData/*7:0*/ __Vdlyvdim1__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v55;
         CData/*0:0*/ __Vdlyvset__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v55;
+        CData/*0:0*/ __Vdly__tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__rr_ptr;
         CData/*0:0*/ __VstlFirstIteration;
         CData/*0:0*/ __Vtrigprevexpr___TOP__tb_gpu_top__DOT__clk__0;
         CData/*0:0*/ __Vtrigprevexpr___TOP__tb_gpu_top__DOT__rst_n__0;
@@ -263,6 +279,8 @@ class alignas(VL_CACHE_LINE_BYTES) Vtb_gpu_top___024root final : public Verilate
         SData/*15:0*/ __Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v18;
         SData/*15:0*/ __Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v19;
         SData/*15:0*/ __Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v25;
+    };
+    struct {
         SData/*15:0*/ __Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v26;
         SData/*15:0*/ __Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v32;
         SData/*15:0*/ __Vdlyvval__tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem__v33;
@@ -279,8 +297,6 @@ class alignas(VL_CACHE_LINE_BYTES) Vtb_gpu_top___024root final : public Verilate
         QData/*63:0*/ tb_gpu_top__DOT__dut__DOT__pc_next_fetch;
         IData/*31:0*/ tb_gpu_top__DOT__dut__DOT__if_instr;
         IData/*31:0*/ tb_gpu_top__DOT__dut__DOT__if_pc;
-    };
-    struct {
         IData/*31:0*/ tb_gpu_top__DOT__dut__DOT__id_pc;
         IData/*31:0*/ tb_gpu_top__DOT__dut__DOT__id_rs1_out;
         IData/*31:0*/ tb_gpu_top__DOT__dut__DOT__id_rs2_out;
@@ -295,6 +311,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vtb_gpu_top___024root final : public Verilate
         IData/*31:0*/ tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk1__DOT__i;
         IData/*31:0*/ tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk4__DOT__i;
         IData/*31:0*/ tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk3__DOT__i;
+        IData/*31:0*/ tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__unnamedblk5__DOT__unnamedblk6__DOT__idx;
         IData/*31:0*/ tb_gpu_top__DOT__dut__DOT__u_decode__DOT__imm_i;
         IData/*31:0*/ tb_gpu_top__DOT__dut__DOT__u_decode__DOT__imm;
         IData/*31:0*/ tb_gpu_top__DOT__dut__DOT__regfiles__BRA__0__KET____DOT__u_regfile__DOT____Vlvbound_hec9a31ed__0;
@@ -328,6 +345,8 @@ class alignas(VL_CACHE_LINE_BYTES) Vtb_gpu_top___024root final : public Verilate
         VlUnpacked<CData/*0:0*/, 2> tb_gpu_top__DOT__dut__DOT__u_scheduler__DOT__warp_state;
         VlUnpacked<IData/*31:0*/, 1024> tb_gpu_top__DOT__dut__DOT__u_fetch__DOT__imem;
         VlUnpacked<VlUnpacked<IData/*31:0*/, 256>, 8> tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__mem;
+    };
+    struct {
         VlUnpacked<CData/*7:0*/, 8> tb_gpu_top__DOT__dut__DOT__u_scratchpad__DOT__word_addr;
         VlUnpacked<VlUnpacked<VlUnpacked<IData/*31:0*/, 31>, 8>, 2> tb_gpu_top__DOT__dut__DOT__regfiles__BRA__0__KET____DOT__u_regfile__DOT__regs;
         VlUnpacked<VlUnpacked<VlUnpacked<IData/*31:0*/, 31>, 8>, 2> tb_gpu_top__DOT__dut__DOT__regfiles__BRA__1__KET____DOT__u_regfile__DOT__regs;

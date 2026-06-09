@@ -36,9 +36,10 @@ module fetch #(
     // ----------------------------------------------------
     logic [31:0] imem [0:IMEM_DEPTH-1];
 
-    initial begin
-        $readmemh("imem.hex", imem);
-    end
+    // $readmemh removed for synthesis — IMEM initialized via testbench or external load
+    // initial begin
+    //     $readmemh("imem.hex", imem);
+    // end
 
     // Word address = PC[PC_WIDTH-1:2]  (bottom 2 bits always 0 for aligned RV32I)
     logic [$clog2(IMEM_DEPTH)-1:0] word_addr;
