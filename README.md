@@ -160,6 +160,17 @@ cd sim
 make sim        # run directed testbench
 make waves      # open GTKWave with VCD dump
 ```
+## Simulation Waveforms
+
+<img width="1605" height="394" alt="Screenshot 2026-06-09 125829" src="https://github.com/user-attachments/assets/ded8c2ef-2e90-4a92-a9b6-a91bf3dc20d9" />
+
+Key events visible in the waveform:
+- `rst_n` deasserts at ~50ns, execution begins on warp 0
+- `rd[4:0]` increments through registers 01 to 08, confirming sequential ALU writeback across all 8 lanes
+- `alu_op` cycles through 1, 2, 3 — ADD, SUB, AND operations executing in order
+- `stall` pulses high at ~420ns on the load instruction
+- `active_warp[0]` flips from 0 to 1 immediately after, confirming round-robin warp switch
+- `pc_wen[1:0]` shows `10` at the transition — warp 1 PC advancing
 
 ### Physical Design
 
