@@ -188,6 +188,5 @@ make gds        # GDS export and DRC
 
 No cache, no FPU, no multiplier, no memory controller. Just a scheduler, a decoder, 8 ALUs, and register storage. The design demonstrates SIMT execution, not compute throughput. For reference, the systolic array in this portfolio uses 32,446 cells on ASAP7 just for 64 MAC units.
 
-## Repository
-
-**GitHub:** [github.com/RakshithSuresh2001/multi-warp-gpu](https://github.com/RakshithSuresh2001/multi-warp-gpu)
+## Author
+Rakshith Suresh, MS Electrical Engineering, USC Viterbi School of Engineering
