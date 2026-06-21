@@ -229,7 +229,7 @@ make gds        # GDS export and DRC
 
 No cache, no FPU, no multiplier, no memory controller. Just a scheduler, a decoder, 8 ALUs, and register storage. The design demonstrates SIMT execution, not compute throughput. For reference, the systolic array in this portfolio uses 32,446 cells on ASAP7 just for 64 MAC units.
 
-After the SRAM macro update, cell count is 663 with 8 real `fakeram7_256x32` macros backing the scratchpad — a useful before/after on how dedicated memory hardware changes the area picture even for a design this small.
+After the SRAM macro update, cell count is 663 with 8 real `fakeram7_256x32` macros backing the scratchpad which is really a useful before/after on how dedicated memory hardware changes the area picture even for a design this small.
 
 ## Author
 Rakshith Suresh, MS Electrical Engineering, USC Viterbi School of Engineering
