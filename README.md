@@ -114,7 +114,7 @@ Full RTL-to-GDS via OpenROAD. All steps: synthesis (Yosys), floorplan, macro pla
 
 ### GDS Layout (KLayout) — SRAM Macro Scratchpad
 
-<img width="971" height="826" alt="GPU Core GDS Layout with SRAM Macros" src="PASTE_NEW_GDS_IMAGE_URL_HERE" />
+<img width="1067" height="953" alt="Screenshot 2026-06-20 212816" src="https://github.com/user-attachments/assets/19a8432f-2388-49df-b8d2-b0a6e7eee2ea" />
 
 *663 cells, 2,862.66 µm² core area, 500 MHz, 0 DRC violations. 8x `fakeram7_256x32` SRAM macros visible on the right (2,808.96 µm², ~98% of die area), standard cell logic on the left (~54 µm²). ASAP7 7nm via OpenROAD.*
 
