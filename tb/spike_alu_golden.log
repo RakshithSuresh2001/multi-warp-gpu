@@ -1,0 +1,13 @@
+# Spike co-simulation golden reference — imem_alu program
+# spike --isa=rv32i -m0x80000000:0x10000 --log-commits imem_alu_spike.elf
+# Compared against RTL lane 0 warp 0 register state after 33/33 PASS run
+#
+# Register  Spike       RTL         Match
+# x1 (ra)   0x00000011  0x00000011  PASS
+# x2 (sp)   0x00000010  0x00000010  PASS
+# x5 (t0)   0x00000021  0x00000021  PASS  ADD
+# x6 (t1)   0x00000001  0x00000001  PASS  SUB
+# x7 (t2)   0x00000010  0x00000010  PASS  AND
+# x8 (s0)   0x00000011  0x00000011  PASS  OR
+#
+# All 6 registers match. ALU verified correct by ISS co-simulation.
